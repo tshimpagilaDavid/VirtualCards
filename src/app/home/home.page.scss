@@ -1,0 +1,50 @@
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.flex {
+  margin-top: -88px;
+  display: flex;
+  justify-content: center;
+}
+
+.border-blanc {
+  position: relative;
+  border: 6px solid white;
+  border-radius: 50%;
+}
+
+.border-black {
+  position: relative;
+  border: 6px solid black;
+  border-radius: 50%;
+}
+
+.img-box {
+  width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  color: black;
+}
+
+img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+}
+
+.header {
+  background-color: #0A0175;
+  height: 150px;
+  padding-top: 1px;
+}
+
