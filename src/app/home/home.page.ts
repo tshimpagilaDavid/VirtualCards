@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChild('qrCanvas') qrCanvas!: ElementRef<HTMLCanvasElement>;
 
+
+  qrContent: string = 'Contenu du QR code à afficher';
   nom: any = '';
   prenom: any ='';
   poste: any = '';
@@ -16,44 +21,56 @@ export class HomePage {
   localisation: any = '';
 
   image: string = 'assets/images.png';
+  qrCodeImage: string | undefined;
 
-  constructor(private barcodeScanner: BarcodeScanner,  private firestore: AngularFirestore) {}
+  constructor(private barcodeScanner: BarcodeScanner,  
+    private firestore: AngularFirestore,
+    private platform: Platform
+    ) {}
+    
 
-  generateQR() {
-    // Générer le contenu du QR code avec les informations saisies
-    const qrContent = `${this.nom}, ${this.prenom}, ${this.poste}, ${this.entreprise}, ${this.localisation}`;
-  
-    // Vérifier si la collection de l'entreprise existe déjà
-    const businessCardsCollectionRef = this.firestore.collection('business-cards').doc(this.entreprise).collection('employees');
-    businessCardsCollectionRef.get().toPromise().then(querySnapshot => {
-      if (querySnapshot!.empty) {
-        // La collection de l'entreprise n'existe pas, créez-la d'abord
-        return this.firestore.collection('business-cards').doc(this.entreprise).set({});
-      } else {
-        // La collection de l'entreprise existe déjà, pas besoin de la créer
-        return Promise.resolve();
+    async addUserAndGenerateQR() {
+      try {
+        // Ajouter les données de l'utilisateur à Firestore
+        const userData = {
+          nom: this.nom,
+          prenom: this.prenom,
+          poste: this.poste,
+          entreprise: this.entreprise,
+          localisation: this.localisation
+          // Ajoutez d'autres champs si nécessaire
+        };
+        const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
+        const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
+    
+        // Générer un code QR à partir des informations de l'utilisateur
+        await this.generateQRCode(userId);
+    
+        console.log('Utilisateur ajouté avec succès et code QR généré.');
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout de l\'utilisateur et de la génération du code QR :', error);
       }
-    }).then(() => {
-      // Enregistrer les informations de l'employé dans la collection de l'entreprise
-      return businessCardsCollectionRef.add({
-        nom: this.nom,
-        prénom: this.prenom,
-        poste: this.poste,
-        localisation: this.localisation,
-        // Ajoutez d'autres champs si nécessaire
-      });
-    }).then((docRef) => {
-      console.log('Employé enregistré avec ID :', docRef.id);
-      // Générer le QR code à partir des données
-      this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, qrContent).then(data => {
-        console.log('QR Code généré :', data);
-        // Afficher le QR code ou faire d'autres actions si nécessaire
-      }, err => {
-        console.error('Erreur lors de la génération du QR code :', err);
-      });
-    }).catch(error => {
-      console.error('Erreur lors de l\'enregistrement de l\'employé dans Firestore :', error);
-    });
-  }
-
+    }
+    
+    async generateQRCode(userId: string) {
+      try {
+        // Récupérer les données de l'utilisateur depuis Firestore
+        const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
+        const userData = userDoc.data();
+    
+        // Construire la chaîne de données à encoder dans le code QR
+        const qrContent = `Nom: ${userData!['nom']}, Prénom: ${userData!['prenom']}, Poste: ${userData!['poste']}, Entreprise: ${userData!['entreprise']}, Localisation: ${userData!['localisation']}`;
+    
+        // Générer le code QR à partir de la chaîne de données
+        const qrCodeDataURL = await QRCode.toDataURL(qrContent);
+    
+        // Afficher le code QR dans votre application (par exemple, en l'assignant à une variable dans votre composant)
+        this.qrCodeImage = qrCodeDataURL;
+    
+        console.log('Code QR généré avec succès pour l\'utilisateur:', userId);
+      } catch (error) {
+        console.error('Erreur lors de la génération du code QR pour l\'utilisateur:', error);
+      }
+    }
 }
+

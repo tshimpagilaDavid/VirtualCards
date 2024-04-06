@@ -19,12 +19,19 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
+        <feature name="Camera">
+           <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+        </feature>
+        <access origin="*" /> <!-- Accès à toutes les ressources -->
+        <preference name="Camera" value="true" /> <!-- Autorisation pour utiliser la caméra -->
         <preference name="Scheme" value="http" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
+        <access origin="*" /> <!-- Accès à toutes les ressources -->
+        <preference name="Camera" value="true" /> <!-- Autorisation pour utiliser la caméra -->
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -45,6 +52,9 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <feature name="Camera">
+          <param name="ios-package" value="CDVCamera" />
+        </feature>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

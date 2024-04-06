@@ -1,8 +1,6 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title class="ion-text-center">
-      VirtualCards
-    </ion-title>
+    <ion-title>Bonjour</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,54 +15,55 @@
     </div>
   </div>
 
-
-    <ion-row>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="nom" shape="round" label="Nom" label-placement="floating" fill="outline"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="prenom" shape="round" label="Prenom" label-placement="floating" fill="outline"></ion-input>
-      </ion-col>
-    </ion-row>
+  <ion-row>
+   <ion-col>
+      <ion-input type="text" [(ngModel)]="nom" shape="round" label="Nom" label-placement="floating" fill="outline"></ion-input>
+    </ion-col>
+    <ion-col>
+      <ion-input type="text" [(ngModel)]="prenom" shape="round" label="Prenom" label-placement="floating" fill="outline"></ion-input>
+    </ion-col>
+  </ion-row>   
   
-    <ion-row>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="poste" shape="round" label="Poste" label-placement="floating" fill="outline"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="entreprise" shape="round" label="Entreprise" label-placement="floating" fill="outline"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-input type="text" [(ngModel)]="localisation" shape="round" label="Localisation" label-placement="floating" fill="outline"></ion-input>
-      </ion-col>
-    </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input type="text" [(ngModel)]="poste" shape="round" label="Poste" label-placement="floating" fill="outline"></ion-input>
+    </ion-col>
+    <ion-col>
+      <ion-input type="text" [(ngModel)]="entreprise" shape="round" label="Entreprise" label-placement="floating" fill="outline"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input type="text" [(ngModel)]="localisation" shape="round" label="Localisation" label-placement="floating" fill="outline"></ion-input>
+    </ion-col>
+  </ion-row>
+  <br>
+  <div>
     <br>
-    <div>
-      <br>
-      <ion-button expand="block" shape="round" color="dark">
-        <ion-icon name="call-outline" slot="start"></ion-icon>
-        Contact professionel
-      </ion-button>
-      <br>
-      <ion-button expand="block" shape="round" color="success">
-        <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-        Whatsapp
-      </ion-button>
-      <br>
-      <ion-button expand="block" shape="round" color="danger">
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
-        Boîte-mail
-      </ion-button>
-      <br>
-      <ion-button expand="block" shape="round" color="dark" fill="outline">
-        <ion-icon name="globe-outline" slot="start"></ion-icon>
-        Site-web
-      </ion-button>
-      <br>
-      <ion-button expand="block" shape="round" (click)="generateQR()">Générer le QR Code</ion-button>
-    </div>
+    <ion-button expand="block" shape="round" color="dark">
+      <ion-icon slot="start" name="call-outline"></ion-icon>
+      Contact professionel
+    </ion-button>
+    <br>
+    <ion-button expand="block" shape="round" color="success">
+    <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+      Whatsapp
+    </ion-button>
+    <br>
+    <ion-button expand="block" shape="round" color="danger">
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      Adresse mail
+    </ion-button>
+    <br>
+    <ion-button expand="block" shape="round" color="dark" fill="outline">
+      <ion-icon name="globe-outline" slot="start"></ion-icon>
+      Site-web
+    </ion-button>
+    <br>
+    <ion-button expand="block" fill="outline" shape="round" (click)="addUserAndGenerateQR()">Générer le QR Code</ion-button>
+    <img [src]="qrCodeImage" *ngIf="qrCodeImage" alt="QR Code">
+
+  </div>  
 
 
 </ion-content>
