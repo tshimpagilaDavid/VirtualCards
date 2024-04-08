@@ -5,6 +5,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as QRCode from 'qrcode';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
+interface Routes {
+  navigate(url: string): void;
+}
 
 
 @Component({
@@ -28,7 +32,9 @@ export class HomePage {
   imageClass: string = 'image';
   selectedFile: any;
 
-  constructor(private barcodeScanner: BarcodeScanner,  
+  constructor(
+    private router: Router,
+    private barcodeScanner: BarcodeScanner,  
     private firestore: AngularFirestore,
     private platform: Platform,
     private storage: AngularFireStorage
@@ -141,6 +147,33 @@ export class HomePage {
         ia[i] = byteString.charCodeAt(i);
       }
       return new Blob([ab], { type: mimeString });
+    }
+
+    async scanQRCode() {
+      try {
+        // Scanner le code QR
+        const barcodeData = await this.barcodeScanner.scan();
+    
+        // Vérifier si le scan a été annulé ou non
+        if (!barcodeData.cancelled) {
+          // Récupérer l'ID du document Firestore depuis le texte du code QR
+          const documentId = barcodeData.text;
+    
+          // Naviguer vers la page des détails de l'utilisateur avec l'ID du document Firestore
+          this.navigate(`/my/${documentId}`);
+        }
+      } catch (error) {
+        console.error('Erreur lors du scan du code QR :', error);
+      }
+    }
+    
+    // Méthode pour naviguer vers une certaine URL
+    navigate(url: string) {
+      try {
+        this.router.navigateByUrl(url);
+      } catch (error) {
+        console.error('Erreur lors de la navigation :', error);
+      }
     }
 }
 

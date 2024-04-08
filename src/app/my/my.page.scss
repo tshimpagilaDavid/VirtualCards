@@ -67,7 +67,18 @@
 }
   
 .col {
-    bottom: -90px;
+    transform: translate(0%, 210%);
+}
+
+.col2 {
+    transform: translate(0%, 260%);
+}
+
+.label {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 250%);
+    font-size: 25px;
 }
   
 .card {
@@ -82,5 +93,5 @@
     border-top-left-radius: 5%;
     border-top-right-radius: 5%;
     border-bottom-left-radius: 5%;
-      border-bottom-right-radius: 5%;
+    border-bottom-right-radius: 5%;
 }

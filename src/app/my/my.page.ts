@@ -14,25 +14,19 @@ export class MyPage implements OnInit {
   route: any;
   user: any;
   image: string = 'assets/images.png';
+  imageClass: string = 'image';
 
   constructor(private activatedRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit() {
     this.businessCardId = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadBusinessCardData();
-    this.route.queryParams.subscribe((params: { state: { user: any; }; }) => {
-      if (params && params.state && params.state.user) {
-        this.user = params.state.user;
-      }
-    });
-
   }
-
 
   loadBusinessCardData() {
     this.firestore.collection('business-cards').doc(this.businessCardId).get().toPromise().then((doc) => {
-      if (doc!.exists) {
-        this.businessCardData = doc!.data();
+      if (doc.exists) {
+        this.businessCardData = doc.data();
       } else {
         console.log('Aucune carte de visite trouvée avec l\'identifiant spécifié.');
       }
