@@ -5,5 +5,42 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="header">
+    <img src="assets/header.png">
+  </div>
 
+  <div class="flex">
+    <div class="border-blanc">
+      <div class="border-black">
+        <div class="image; image-box"  >
+          <img [src]="image"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-card class="card" shape="round">
+    <ion-row>
+      <ion-col class="col">
+         <ion-input type="text" shape="round" label="Nom" label-placement="floating" fill="outline"></ion-input>
+       </ion-col>
+       <ion-col class="col">
+         <ion-input type="text" shape="round" label="Prenom" label-placement="floating" fill="outline"></ion-input>
+       </ion-col>
+     </ion-row>   
+     
+     <ion-row>
+       <ion-col class="col">
+         <ion-input type="text" shape="round" label="Poste" label-placement="floating" fill="outline"></ion-input>
+       </ion-col>
+       <ion-col class="col">
+         <ion-input type="text" shape="round" label="Entreprise" label-placement="floating" fill="outline"></ion-input>
+       </ion-col>
+     </ion-row>
+     <ion-row>
+       <ion-col class="col">
+         <ion-input type="text" shape="round" label="Localisation" label-placement="floating" fill="outline"></ion-input>
+       </ion-col>
+     </ion-row>
+  </ion-card>
 </ion-content>

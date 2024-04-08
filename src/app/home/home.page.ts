@@ -3,6 +3,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as QRCode from 'qrcode';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-home',
@@ -12,7 +15,6 @@ import * as QRCode from 'qrcode';
 export class HomePage {
   @ViewChild('qrCanvas') qrCanvas!: ElementRef<HTMLCanvasElement>;
 
-
   qrContent: string = 'Contenu du QR code à afficher';
   nom: any = '';
   prenom: any ='';
@@ -21,56 +23,124 @@ export class HomePage {
   localisation: any = '';
 
   image: string = 'assets/images.png';
+  image2: string | ArrayBuffer | null = this.image;
   qrCodeImage: string | undefined;
+  imageClass: string = 'image';
+  selectedFile: any;
 
   constructor(private barcodeScanner: BarcodeScanner,  
     private firestore: AngularFirestore,
-    private platform: Platform
+    private platform: Platform,
+    private storage: AngularFireStorage
     ) {}
+
+    openGallery() {
+      const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+      fileInput.click();
+    }
+    
+    onFileSelected(event: any) {
+      this.selectedFile = event.target.files[0]; // Assignez la valeur de selectedFile à this.selectedFile
+      const selectedFile = this.selectedFile;
+      
+      // Vous pouvez maintenant traiter le fichier sélectionné comme vous le souhaitez
+      // Par exemple, vous pouvez afficher l'image dans votre application ou l'enregistrer sur le serveur.
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.image2 = reader.result;
+          this.imageClass = 'image fit-image';
+        };
+        reader.readAsDataURL(selectedFile);
+      }
+      console.log(selectedFile);
+    }
     
 
     async addUserAndGenerateQR() {
       try {
-        // Ajouter les données de l'utilisateur à Firestore
-        const userData = {
-          nom: this.nom,
-          prenom: this.prenom,
-          poste: this.poste,
-          entreprise: this.entreprise,
-          localisation: this.localisation
-          // Ajoutez d'autres champs si nécessaire
-        };
-        const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
-        const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
+        if (!this.selectedFile) {
+          console.error('Aucune image sélectionnée.');
+          return;
+        }
     
-        // Générer un code QR à partir des informations de l'utilisateur
-        await this.generateQRCode(userId);
+        // Télécharger l'image dans le stockage de Firebase
+        const filePath = `images/${Date.now()}_${this.selectedFile.name}`;
+        const fileRef = this.storage.ref(filePath);
+        const uploadTask = this.storage.upload(filePath, this.selectedFile);
     
-        console.log('Utilisateur ajouté avec succès et code QR généré.');
+        // Attendre la fin du téléchargement de l'image
+        await uploadTask.snapshotChanges().pipe(
+          finalize(async () => {
+            // Obtenir l'URL de téléchargement de l'image
+            const imageUrl = await fileRef.getDownloadURL().toPromise();
+            
+            // Ajouter les données de l'utilisateur (y compris l'URL de l'image) à Firestore
+            const userData = {
+              nom: this.nom,
+              prenom: this.prenom,
+              poste: this.poste,
+              entreprise: this.entreprise,
+              localisation: this.localisation,
+              imageUrl: imageUrl // Ajoutez l'URL de l'image ici
+              // Ajoutez d'autres champs si nécessaire
+            };
+            const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
+            const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
+            
+            // Générer le code QR à partir de l'ID de l'utilisateur
+            const qrCodeImageUrl = await this.generateAndUploadQRCode(userId);
+            
+            // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
+            await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
+              qrCodeImageUrl: qrCodeImageUrl
+            });
+            
+            console.log('Utilisateur ajouté avec succès et code QR généré.');
+          })
+        ).toPromise();
       } catch (error) {
         console.error('Erreur lors de l\'ajout de l\'utilisateur et de la génération du code QR :', error);
       }
     }
     
-    async generateQRCode(userId: string) {
+    async generateAndUploadQRCode(userId: string) {
       try {
-        // Récupérer les données de l'utilisateur depuis Firestore
-        const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
-        const userData = userDoc.data();
-    
         // Construire la chaîne de données à encoder dans le code QR
-        const qrContent = `Nom: ${userData!['nom']}, Prénom: ${userData!['prenom']}, Poste: ${userData!['poste']}, Entreprise: ${userData!['entreprise']}, Localisation: ${userData!['localisation']}`;
-    
+        const qrContent = `Nom: ${this.nom}, Prénom: ${this.prenom}, Poste: ${this.poste}, Entreprise: ${this.entreprise}, Localisation: ${this.localisation}`;
+        
         // Générer le code QR à partir de la chaîne de données
         const qrCodeDataURL = await QRCode.toDataURL(qrContent);
     
-        // Afficher le code QR dans votre application (par exemple, en l'assignant à une variable dans votre composant)
+        // Convertir les données de l'image du code QR en Blob
+        const qrCodeBlob = this.dataURLtoBlob(qrCodeDataURL);
+    
+        // Télécharger l'image du code QR dans le stockage Firebase
+        const qrCodeFilePath = `qrcodes/${userId}_qrcode.png`;
+        const qrCodeFileRef = this.storage.ref(qrCodeFilePath);
+        await qrCodeFileRef.put(qrCodeBlob);
+    
+        // Obtenir l'URL de téléchargement de l'image du code QR
+        const qrCodeImageUrl = await qrCodeFileRef.getDownloadURL().toPromise();
         this.qrCodeImage = qrCodeDataURL;
     
-        console.log('Code QR généré avec succès pour l\'utilisateur:', userId);
+        console.log('Code QR généré et téléchargé avec succès.');
+        return qrCodeImageUrl; // Retournez l'URL de téléchargement de l'image du code QR
       } catch (error) {
-        console.error('Erreur lors de la génération du code QR pour l\'utilisateur:', error);
+        console.error('Erreur lors de la génération et du téléchargement du code QR :', error);
+        throw error;
       }
+    }
+    
+    dataURLtoBlob(dataURL: string) {
+      const byteString = atob(dataURL.split(',')[1]);
+      const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeString });
     }
 }
 
