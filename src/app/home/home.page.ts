@@ -158,6 +158,7 @@ export class HomePage {
         if (!barcodeData.cancelled) {
           // Récupérer l'ID du document Firestore depuis le texte du code QR
           const userId = barcodeData.text;
+          console.log('userId extrait du code QR :', userId);
           await this.retrieveUserData(userId);
         }
       } catch (error) {
@@ -168,19 +169,19 @@ export class HomePage {
     async retrieveUserData(userId: string) {
       try {
           // Récupérer les données de l'utilisateur depuis Firestore
-          this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().subscribe((userDoc) => {
-              // Vérifier si le document existe
-              if (userDoc.exists) {
-                  // Extraire les données de l'utilisateur du document
-                  const userData = userDoc.data();
-                  localStorage.setItem('userData', JSON.stringify(userData));
-                  
-                  // Naviguer vers la page des détails de l'utilisateur avec les données
-                  window.location.href = `https://virtualcards-8b5ac.web.app/my/${userData}`;
-              } else {
-                  console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
-              }
-          });
+          const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
+  
+          // Vérifier si le document existe
+          if (userDoc.exists) {
+              // Extraire les données de l'utilisateur du document
+              const userData = userDoc.data();
+              localStorage.setItem('userData', JSON.stringify(userData));
+              
+              // Rediriger l'utilisateur vers la page des détails de l'utilisateur
+              window.location.href = `https://virtualcards-8b5ac.web.app/my`;
+          } else {
+              console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
+          }
       } catch (error) {
           console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
       }
