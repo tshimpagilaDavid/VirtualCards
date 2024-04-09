@@ -157,18 +157,37 @@ export class HomePage {
         // Vérifier si le scan a été annulé ou non
         if (!barcodeData.cancelled) {
           // Récupérer l'ID du document Firestore depuis le texte du code QR
-          const documentId = barcodeData.text;
-    
-          // Naviguer vers la page des détails de l'utilisateur avec l'ID du document Firestore
-          this.navigate(`/my/${documentId}`);
+          const userId = barcodeData.text;
+          await this.retrieveUserData(userId);
         }
       } catch (error) {
         console.error('Erreur lors du scan du code QR :', error);
       }
     }
+
+    async retrieveUserData(userId: string) {
+      try {
+          // Récupérer les données de l'utilisateur depuis Firestore
+          this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().subscribe((userDoc) => {
+              // Vérifier si le document existe
+              if (userDoc.exists) {
+                  // Extraire les données de l'utilisateur du document
+                  const userData = userDoc.data();
+                  localStorage.setItem('userData', JSON.stringify(userData));
+                  
+                  // Naviguer vers la page des détails de l'utilisateur avec les données
+                  this.navigate(`/my/${userId}`, userData);
+              } else {
+                  console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
+              }
+          });
+      } catch (error) {
+          console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+      }
+  }
     
     // Méthode pour naviguer vers une certaine URL
-    navigate(url: string) {
+    navigate(url: string, userData: unknown) {
       try {
         this.router.navigateByUrl(url);
       } catch (error) {

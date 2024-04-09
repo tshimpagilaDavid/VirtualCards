@@ -1,10 +1,13 @@
+ion-content { 
+    --background: linear-gradient(45deg, #006d0d, #ffbf00, blue);
+}
+
 .code {
     left: 50%;
       position: relative;
       transform: translate(-50%);
 }
-  
-  
+   
 .flex {
     margin-top: -80px;
     display: flex;
@@ -58,12 +61,11 @@
   
 .item {
     left: 50%;;
-      top: -60px;
-      height: 3rem;
-      width: 19rem;
-      position: relative;
-      transform: translate(-50%, 0%);
-      --border-radius: 10px;
+    height: 3rem;
+    width: 19rem;
+    position: relative;
+    transform: translate(-50%, 150%);
+    --border-radius: 10px;
 }
   
 .col {

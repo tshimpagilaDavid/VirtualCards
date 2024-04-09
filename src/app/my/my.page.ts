@@ -15,10 +15,17 @@ export class MyPage implements OnInit {
   user: any;
   image: string = 'assets/images.png';
   imageClass: string = 'image';
+  userData: any;
 
   constructor(private activatedRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
-  ngOnInit() {
+  ngOnInit() : void {
+    // Récupérer les données de l'utilisateur depuis le stockage local
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+        this.userData = JSON.parse(userDataString);
+    }
+    
     this.businessCardId = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadBusinessCardData();
   }
