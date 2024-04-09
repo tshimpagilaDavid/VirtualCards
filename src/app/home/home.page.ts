@@ -176,7 +176,7 @@ export class HomePage {
                   localStorage.setItem('userData', JSON.stringify(userData));
                   
                   // Naviguer vers la page des détails de l'utilisateur avec les données
-                  this.navigate(`/my/${userId}`, userData);
+                  window.location.href = `https://virtualcards-8b5ac.web.app/my/${userData}`;
               } else {
                   console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
               }

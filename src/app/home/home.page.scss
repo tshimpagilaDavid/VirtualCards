@@ -76,6 +76,10 @@ ion-content {
   transform: translate(-50%, -10%);
 }
 
+.custom-input {
+  --ion-color-base: #fff; /* Définit la couleur de base sur blanc */
+}
+
 .item {
   left: 50%;;
     top: -60px;
