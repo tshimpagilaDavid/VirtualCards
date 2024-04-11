@@ -105,7 +105,9 @@ export class HomePage {
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
-                  const qrCodeImageUrl = await this.generateAndUploadQRCode(userId, 'https://virtualcards-8b5ac.web.app/my');
+                  const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
+
+                  const qrCodeImageUrl = await this.generateAndUploadQRCode(userId, pageUrl);
   
                   // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
                   await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
@@ -120,8 +122,10 @@ export class HomePage {
       }
     }
   
-  async generateAndUploadQRCode(userId: string, pageUrl: string) {
+  async generateAndUploadQRCode(userId: string, pageUrl:string) {
     try {
+        const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
+
         // Construire l'URL de la page avec les données utilisateur
         const fullUrl = `${pageUrl}?userId=${userId}`;
 
