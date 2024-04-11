@@ -1,6 +1,5 @@
-ion-content {
-  --background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)),
-  url("/assets/demo2.JPG") no-repeat center center / cover;
+ion-content{
+  --background: linear-gradient(25deg, #1286a7, #f0f0f0, #1286a7);
 }
 
 #container {
@@ -76,10 +75,6 @@ ion-content {
   transform: translate(-50%, -10%);
 }
 
-.custom-input {
-  --ion-color-base: #fff; /* Définit la couleur de base sur blanc */
-}
-
 .item {
   left: 50%;;
     top: -60px;
@@ -91,13 +86,14 @@ ion-content {
 }
 
 .col {
+  color: #f0f0f0;
   bottom: -90px;
 }
 
 .card {
   z-index: -1;
   top: 0%;
-  background-color: #899f6b;
+  background-color: #1286a7;
   position: relative;
   left: 50%;
   transform: translate(-52.5%, -25%);
@@ -111,11 +107,12 @@ ion-content {
 
 .ion-button {
   position: absolute;
-  width: 45px;
-  overflow: hidden;
-  display: flex;
-  bottom: 1px;
-  right: 1px;
-  border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    display: flex;
+    bottom: -10px;
+    right: -10px;
+    border-radius: 50%;
 }
 

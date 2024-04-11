@@ -22,50 +22,50 @@
   <ion-card class="card" shape="round">
     <ion-row>
       <ion-col class="col">
-         <ion-input type="text" class="custom-input" [(ngModel)]="nom" shape="round" label="Nom" label-placement="floating" fill="outline"></ion-input>
+         <ion-input type="text" [(ngModel)]="nom" shape="round" label="Nom" label-placement="floating" fill="outline"></ion-input>
        </ion-col>
        <ion-col class="col">
-         <ion-input class="custom-input" type="text" [(ngModel)]="prenom" shape="round" label="Prenom" label-placement="floating" fill="outline"></ion-input>
+         <ion-input type="text" [(ngModel)]="prenom" shape="round" label="Prenom" label-placement="floating" fill="outline"></ion-input>
        </ion-col>
      </ion-row>   
      
      <ion-row>
        <ion-col class="col">
-         <ion-input type="text" class="custom-input" [(ngModel)]="poste" shape="round" label="Poste" label-placement="floating" fill="outline"></ion-input>
+         <ion-input type="text" [(ngModel)]="poste" shape="round" label="Poste" label-placement="floating" fill="outline"></ion-input>
        </ion-col>
        <ion-col class="col">
-         <ion-input type="text" class="custom-input" [(ngModel)]="entreprise" shape="round" label="Entreprise" label-placement="floating" fill="outline"></ion-input>
+         <ion-input type="text" [(ngModel)]="entreprise" shape="round" label="Entreprise" label-placement="floating" fill="outline"></ion-input>
        </ion-col>
      </ion-row>
      <ion-row>
        <ion-col class="col">
-         <ion-input type="text" class="custom-input" [(ngModel)]="localisation" shape="round" label="Localisation" label-placement="floating" fill="outline"></ion-input>
+         <ion-input type="text" [(ngModel)]="localisation" shape="round" label="Localisation" label-placement="floating" fill="outline"></ion-input>
        </ion-col>
      </ion-row>
   </ion-card>
-    <ion-item class="item" color="dark" shape="round">
+    <ion-item class="item" shape="round">
       <ion-icon slot="start" name="call-outline"></ion-icon>
-      <ion-input class="ion-text-center"></ion-input> 
+      <ion-input [(ngModel)]="telephone" class="ion-text-center"></ion-input> 
     </ion-item>
     <br>
-    <ion-item class="item" shape="round" color="dark">
+    <ion-item class="item" shape="round">
       <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-      <ion-input class="ion-text-center"></ion-input>
+      <ion-input [(ngModel)]="whatsapp" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
-    <ion-item class="item" shape="round" color="dark">
+    <ion-item class="item" shape="round">
       <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-input class="ion-text-center"></ion-input>
+      <ion-input [(ngModel)]="mail" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
-    <ion-item class="item" shape="round" color="dark">
+    <ion-item class="item" shape="round">
       <ion-icon name="globe-outline" slot="start"></ion-icon>
-      <ion-input class="ion-text-center"></ion-input>
+      <ion-input [(ngModel)]="site" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
-    <ion-button class="item" class="round" fill="outline" (click)="addUserAndGenerateQR()">Générer le QR Code</ion-button>
+    <ion-button class="item" class="round" (click)="addUserAndGenerateQR()">Générer le QR Code</ion-button>
     <br>
-    <img class="code" *ngIf="qrCodeImage" [src]="qrCodeImage" alt="QR Code">
+    <img class="code" *ngIf="qrCodeImageUrl" [src]="qrCodeImageUrl" alt="QR Code">
   
 
 

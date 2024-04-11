@@ -6,6 +6,8 @@ import * as QRCode from 'qrcode';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 interface Routes {
   navigate(url: string): void;
 }
@@ -25,10 +27,14 @@ export class HomePage {
   poste: any = '';
   entreprise: any ='';
   localisation: any = '';
+  telephone!: number;
+  whatsapp!: number;
+  mail: any = '';
+  site!: URL;
 
   image: string = 'assets/images.png';
   image2: string | ArrayBuffer | null = this.image;
-  qrCodeImage: string | undefined;
+  qrCodeImageUrl: string | undefined;
   imageClass: string = 'image';
   selectedFile: any;
 
@@ -65,135 +71,144 @@ export class HomePage {
 
     async addUserAndGenerateQR() {
       try {
-        if (!this.selectedFile) {
-          console.error('Aucune image sélectionnée.');
-          return;
-        }
-    
-        // Télécharger l'image dans le stockage de Firebase
-        const filePath = `images/${Date.now()}_${this.selectedFile.name}`;
-        const fileRef = this.storage.ref(filePath);
-        const uploadTask = this.storage.upload(filePath, this.selectedFile);
-    
-        // Attendre la fin du téléchargement de l'image
-        await uploadTask.snapshotChanges().pipe(
-          finalize(async () => {
-            // Obtenir l'URL de téléchargement de l'image
-            const imageUrl = await fileRef.getDownloadURL().toPromise();
-            
-            // Ajouter les données de l'utilisateur (y compris l'URL de l'image) à Firestore
-            const userData = {
-              nom: this.nom,
-              prenom: this.prenom,
-              poste: this.poste,
-              entreprise: this.entreprise,
-              localisation: this.localisation,
-              imageUrl: imageUrl // Ajoutez l'URL de l'image ici
-              // Ajoutez d'autres champs si nécessaire
-            };
-            const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
-            const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
-            
-            // Générer le code QR à partir de l'ID de l'utilisateur
-            const qrCodeImageUrl = await this.generateAndUploadQRCode(userId);
-            
-            // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
-            await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
-              qrCodeImageUrl: qrCodeImageUrl
-            });
-            
-            console.log('Utilisateur ajouté avec succès et code QR généré.');
-          })
-        ).toPromise();
+          if (!this.selectedFile) {
+              console.error('Aucune image sélectionnée.');
+              return;
+          }
+  
+          // Télécharger l'image dans le stockage de Firebase
+          const filePath = `images/${Date.now()}_${this.selectedFile.name}`;
+          const fileRef = this.storage.ref(filePath);
+          const uploadTask = this.storage.upload(filePath, this.selectedFile);
+  
+          // Attendre la fin du téléchargement de l'image
+          await uploadTask.snapshotChanges().pipe(
+              finalize(async () => {
+                  // Obtenir l'URL de téléchargement de l'image
+                  const imageUrl = await fileRef.getDownloadURL().toPromise();
+  
+                  // Ajouter les données de l'utilisateur (y compris l'URL de l'image) à Firestore
+                  const userData = {
+                      nom: this.nom,
+                      prenom: this.prenom,
+                      poste: this.poste,
+                      entreprise: this.entreprise,
+                      localisation: this.localisation,
+                      imageUrl: imageUrl,
+                      telephone: this.telephone,
+                      whatsapp: this.whatsapp,
+                      mail: this.mail,
+                      site: this.site // Ajoutez l'URL de l'image ici
+                      // Ajoutez d'autres champs si nécessaire
+                  };
+                  const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
+                  const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
+  
+                  // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
+                  const qrCodeImageUrl = await this.generateAndUploadQRCode(userId, 'https://virtualcards-8b5ac.web.app/my');
+  
+                  // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
+                  await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
+                      qrCodeImageUrl: qrCodeImageUrl
+                  });
+  
+                  console.log('Utilisateur ajouté avec succès et code QR généré.');
+              })
+          ).toPromise();
       } catch (error) {
-        console.error('Erreur lors de l\'ajout de l\'utilisateur et de la génération du code QR :', error);
+          console.error('Erreur lors de l\'ajout de l\'utilisateur et de la génération du code QR :', error);
       }
     }
-    
-    async generateAndUploadQRCode(userId: string) {
-      try {
-        // Construire la chaîne de données à encoder dans le code QR
-        const qrContent = `Nom: ${this.nom}, Prénom: ${this.prenom}, Poste: ${this.poste}, Entreprise: ${this.entreprise}, Localisation: ${this.localisation}`;
-        
-        // Générer le code QR à partir de la chaîne de données
-        const qrCodeDataURL = await QRCode.toDataURL(qrContent);
-    
+  
+  async generateAndUploadQRCode(userId: string, pageUrl: string) {
+    try {
+        // Construire l'URL de la page avec les données utilisateur
+        const fullUrl = `${pageUrl}?userId=${userId}`;
+
+        // Générer le code QR à partir de l'URL de la page
+        const qrCodeDataURL = await QRCode.toDataURL(fullUrl);
+
         // Convertir les données de l'image du code QR en Blob
         const qrCodeBlob = this.dataURLtoBlob(qrCodeDataURL);
-    
+
         // Télécharger l'image du code QR dans le stockage Firebase
         const qrCodeFilePath = `qrcodes/${userId}_qrcode.png`;
         const qrCodeFileRef = this.storage.ref(qrCodeFilePath);
         await qrCodeFileRef.put(qrCodeBlob);
-    
+
         // Obtenir l'URL de téléchargement de l'image du code QR
         const qrCodeImageUrl = await qrCodeFileRef.getDownloadURL().toPromise();
-        this.qrCodeImage = qrCodeDataURL;
-    
+
+        console.log('URL de téléchargement de l\'image du code QR :', qrCodeImageUrl); // Ajoutez ce log pour vérifier l'URL
+
         console.log('Code QR généré et téléchargé avec succès.');
         return qrCodeImageUrl; // Retournez l'URL de téléchargement de l'image du code QR
-      } catch (error) {
+    } catch (error) {
         console.error('Erreur lors de la génération et du téléchargement du code QR :', error);
         throw error;
-      }
     }
-    
-    dataURLtoBlob(dataURL: string) {
-      const byteString = atob(dataURL.split(',')[1]);
-      const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      return new Blob([ab], { type: mimeString });
+}
+
+   dataURLtoBlob(dataURL: string) {
+      const parts = dataURL.split(';base64,');
+      const contentType = parts[0].split(':')[1];
+      const raw = window.atob(parts[1]);
+      const rawLength = raw.length;
+      const uInt8Array = new Uint8Array(rawLength);
+
+      for (let i = 0; i < rawLength; ++i) {
+          uInt8Array[i] = raw.charCodeAt(i);
+       }
+
+      return new Blob([uInt8Array], { type: contentType });
     }
 
-    async scanQRCode() {
-      try {
-        // Scanner le code QR
-        const barcodeData = await this.barcodeScanner.scan();
-    
-        // Vérifier si le scan a été annulé ou non
-        if (!barcodeData.cancelled) {
-          // Récupérer l'ID du document Firestore depuis le texte du code QR
-          const userId = barcodeData.text;
-          console.log('userId extrait du code QR :', userId);
-          await this.retrieveUserData(userId);
-        }
-      } catch (error) {
-        console.error('Erreur lors du scan du code QR :', error);
-      }
-    }
 
-    async retrieveUserData(userId: string) {
-      try {
-          // Récupérer les données de l'utilisateur depuis Firestore
-          const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
   
-          // Vérifier si le document existe
-          if (userDoc.exists) {
-              // Extraire les données de l'utilisateur du document
-              const userData = userDoc.data();
-              localStorage.setItem('userData', JSON.stringify(userData));
-              
-              // Rediriger l'utilisateur vers la page des détails de l'utilisateur
-              window.location.href = `https://virtualcards-8b5ac.web.app/my`;
-          } else {
-              console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
+  async scanQRCode() {
+      try {
+          // Scanner le code QR
+          const barcodeData = await this.barcodeScanner.scan();
+  
+          // Vérifier si le scan a été annulé ou non
+          if (!barcodeData.cancelled) {
+              // Récupérer l'ID du document Firestore depuis le texte du code QR
+              const userId = barcodeData.text;
+              console.log('userId extrait du code QR :', userId);
+              await this.retrieveUserData(userId);
           }
       } catch (error) {
-          console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+          console.error('Erreur lors du scan du code QR :', error);
       }
   }
-    
-    // Méthode pour naviguer vers une certaine URL
-    navigate(url: string, userData: unknown) {
-      try {
-        this.router.navigateByUrl(url);
-      } catch (error) {
-        console.error('Erreur lors de la navigation :', error);
-      }
+  
+  async retrieveUserData(userId: string) {
+    try {
+        // Récupérer les données de l'utilisateur depuis Firestore
+        const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
+        
+        if (userDoc.exists) {
+            const userData = userDoc.data();
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Rediriger l'utilisateur vers l'URL spécifiée
+            window.location.href = 'https://virtualcards-8b5ac.web.app/my';
+        } else {
+            console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
     }
+  }
+  
+  // Méthode pour naviguer vers une certaine URL
+  navigate(url: string, userData: unknown) {
+      try {
+          this.router.navigateByUrl(url);
+      } catch (error) {
+          console.error('Erreur lors de la navigation :', error);
+      }
+  }
+
 }
 

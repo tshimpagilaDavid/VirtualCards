@@ -1,5 +1,7 @@
-ion-content { 
-    --background: linear-gradient(45deg, #006d0d, #ffbf00, blue);
+ion-content {
+    --background: linear-gradient(25deg, #1286a7, #f0f0f0, #1286a7);
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .code {
@@ -64,16 +66,18 @@ ion-content {
     height: 3rem;
     width: 19rem;
     position: relative;
-    transform: translate(-50%, 150%);
+    transform: translate(-50%, -50%);
     --border-radius: 10px;
 }
   
 .col {
-    transform: translate(0%, 210%);
+    color: #f0f0f0;
+    transform: translate(0%, 95%);
 }
 
 .col2 {
-    transform: translate(0%, 260%);
+    color: #f0f0f0;
+    transform: translate(0%, 185%);
 }
 
 .label {
@@ -81,12 +85,15 @@ ion-content {
     left: 50%;
     transform: translate(-50%, 250%);
     font-size: 25px;
+    color: white;
+    font-weight: 800;
+    font-family:Georgia, 'Times New Roman', Times, serif;
 }
   
 .card {
     z-index: -1;
     top: 0%;
-    background-color: #899f6b;
+    background-color: #1286a7;
     position: relative;
     left: 50%;
     transform: translate(-52.5%, -25%);
