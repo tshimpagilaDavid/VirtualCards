@@ -34,7 +34,7 @@ export class HomePage {
 
   image: string = 'assets/images.png';
   image2: string | ArrayBuffer | null = this.image;
-  qrCodeImageUrl: string | undefined;
+  qrCodeImageUrl: string | null = null;
   imageClass: string = 'image';
   selectedFile: any;
 
@@ -108,6 +108,7 @@ export class HomePage {
                   const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
 
                   const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
+                  this.qrCodeImageUrl = qrCodeImageUrl;
   
                   // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
                   await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
