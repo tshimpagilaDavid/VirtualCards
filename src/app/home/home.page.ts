@@ -107,7 +107,7 @@ export class HomePage {
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
                   const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
 
-                  const qrCodeImageUrl = await this.generateAndUploadQRCode(userId, pageUrl);
+                  const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
   
                   // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
                   await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).update({
@@ -122,36 +122,38 @@ export class HomePage {
       }
     }
   
-  async generateAndUploadQRCode(userId: string, pageUrl:string) {
-    try {
-        const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
-
-        // Construire l'URL de la page avec les données utilisateur
-        const fullUrl = `${pageUrl}?userId=${userId}`;
-
-        // Générer le code QR à partir de l'URL de la page
-        const qrCodeDataURL = await QRCode.toDataURL(fullUrl);
-
-        // Convertir les données de l'image du code QR en Blob
-        const qrCodeBlob = this.dataURLtoBlob(qrCodeDataURL);
-
-        // Télécharger l'image du code QR dans le stockage Firebase
-        const qrCodeFilePath = `qrcodes/${userId}_qrcode.png`;
-        const qrCodeFileRef = this.storage.ref(qrCodeFilePath);
-        await qrCodeFileRef.put(qrCodeBlob);
-
-        // Obtenir l'URL de téléchargement de l'image du code QR
-        const qrCodeImageUrl = await qrCodeFileRef.getDownloadURL().toPromise();
-
-        console.log('URL de téléchargement de l\'image du code QR :', qrCodeImageUrl); // Ajoutez ce log pour vérifier l'URL
-
-        console.log('Code QR généré et téléchargé avec succès.');
-        return qrCodeImageUrl; // Retournez l'URL de téléchargement de l'image du code QR
-    } catch (error) {
-        console.error('Erreur lors de la génération et du téléchargement du code QR :', error);
-        throw error;
-    }
-}
+    async generateAndUploadQRCode(userId: string, pageUrl: string) {
+      try {
+          console.log('Début de la génération et du téléchargement du code QR.');
+    
+          // Construire l'URL de la page avec les données utilisateur
+          const fullUrl = `${pageUrl}?userId=${userId}`;
+          console.log('URL complète de la page:', fullUrl);
+    
+          // Générer le code QR à partir de l'URL de la page
+          const qrCodeDataURL = await QRCode.toDataURL(fullUrl);
+          console.log('Données URL du code QR généré:', qrCodeDataURL);
+    
+          // Convertir les données de l'image du code QR en Blob
+          const qrCodeBlob = this.dataURLtoBlob(qrCodeDataURL);
+    
+          // Télécharger l'image du code QR dans le stockage Firebase
+          const qrCodeFilePath = `qrcodes/${userId}_qrcode.png`;
+          console.log('Chemin du fichier du code QR:', qrCodeFilePath);
+    
+          const qrCodeFileRef = this.storage.ref(qrCodeFilePath);
+          await qrCodeFileRef.put(qrCodeBlob);
+    
+          // Obtenir l'URL de téléchargement de l'image du code QR
+          const qrCodeImageUrl = await qrCodeFileRef.getDownloadURL().toPromise(); // Utiliser toPromise()
+          console.log('URL de téléchargement de l\'image du code QR :', qrCodeImageUrl);
+          console.log('Code QR généré et téléchargé avec succès.');
+          return qrCodeImageUrl; // Retournez l'URL de téléchargement de l'image du code QR
+      } catch (error) {
+          console.error('Erreur lors de la génération et du téléchargement du code QR :', error);
+          throw error;
+      }
+  }
 
    dataURLtoBlob(dataURL: string) {
       const parts = dataURL.split(';base64,');
