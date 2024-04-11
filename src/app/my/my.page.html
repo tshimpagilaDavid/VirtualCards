@@ -20,24 +20,24 @@
     </div>
   </div>
 
-  <ion-card class="card" shape="round">
+  <ion-card class="card" shape="round" *ngIf="businessCardData">
     <ion-row>
       <ion-col >
-        <ion-label class="label">AZUMOTH</ion-label>
+        <ion-label class="label">{{ businessCardData.nom }} {{businessCardData.prenom}}</ion-label>
       </ion-col>
     </ion-row>  
      
      <ion-row>
        <ion-col class="col">
-         <h4 style="text-align: center;">TRESORIER</h4>
+         <h4 style="text-align: center;">{{businessCardData.poste}}</h4>
        </ion-col>
        <ion-col class="col">
-         <h4 style="text-align: center;">INPTIC</h4>
+         <h4 style="text-align: center;">{{businessCardData.entreprise}}</h4>
        </ion-col>
      </ion-row>
      <ion-row>
        <ion-col class="col2">
-         <h4 class="ion-text-center">Gabon, Libreville, Charbonnage</h4>
+         <h4 class="ion-text-center">{{businessCardData.localisation}}</h4>
        </ion-col>
      </ion-row>
   </ion-card>
