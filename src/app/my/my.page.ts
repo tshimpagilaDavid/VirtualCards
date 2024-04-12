@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-my',
@@ -13,11 +13,11 @@ export class MyPage implements OnInit {
   image: string = 'assets/images.png'; // Chemin de l'image par défaut
   imageClass: string = 'image'; // Classe CSS pour l'image
 
-  constructor(private activatedRoute: ActivatedRoute, private firestore: AngularFirestore) { }
+  constructor(private activateRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     // Souscrire aux modifications des paramètres de l'URL
-    this.activatedRoute.paramMap.subscribe(params => {
+    this.activateRoute.paramMap.subscribe(params => {
       // Extraire l'ID de l'URL
       this.userId = params.get('userId');
       // Vérifier si l'ID est présent
