@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MyPage } from './my.page';
 
 const routes: Routes = [
-  { path: '', component: MyPage }
+  { path: 'my/:userId', component: MyPage }
 ];
 
 @NgModule({
