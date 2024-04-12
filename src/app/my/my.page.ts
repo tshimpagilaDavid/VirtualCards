@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-my',
@@ -10,15 +8,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./my.page.scss'],
 })
 export class MyPage implements OnInit {
-
-  userData: any;
-  userId: any | null = null;
-  image: string = 'assets/images.png';
-  imageClass: string = 'image';
+  userData: any; // Variable pour stocker les données utilisateur récupérées
+  userId: any | null = null; // Initialiser userId à null
+  image: string = 'assets/images.png'; // Chemin de l'image par défaut
+  imageClass: string = 'image'; // Classe CSS pour l'image
 
   constructor(private activatedRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
+    // Souscrire aux modifications des paramètres de l'URL
     this.activatedRoute.paramMap.subscribe(params => {
       // Extraire l'ID de l'URL
       this.userId = params.get('userId');
