@@ -105,7 +105,7 @@ export class HomePage {
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
-                  const pageUrl = 'https://virtualcards-8b5ac.web.app/my'; // URL de la page
+                  const pageUrl = `https://virtualcards-8b5ac.web.app/my?userId=${userId}`;; // URL de la page
 
                   const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
                   this.qrCodeImageUrl = qrCodeImageUrl;
@@ -125,7 +125,7 @@ export class HomePage {
   
     async generateAndUploadQRCode(userId: string, pageUrl: string) {
       try {
-          console.log('Début de la génération et du téléchargement du code QR.');
+          console.log('Début de la génération et du téléchargement du code QR.'); 
     
           // Construire l'URL de la page avec les données utilisateur
           const fullUrl = `${pageUrl}?userId=${userId}`;
