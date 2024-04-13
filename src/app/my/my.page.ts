@@ -18,9 +18,9 @@ export class MyPage implements OnInit {
 
   ngOnInit(): void {
     // Souscrire aux modifications des paramètres de l'URL
-    this.activateRoute.paramMap.subscribe(async params => {
+    this.activateRoute.paramMap.subscribe(async paramMap => {
       // Extraire l'ID de l'URL
-      this.userId = params.get('userId');
+      this.userId = paramMap.get('userId');
       // Vérifier si l'ID est présent
       if (this.userId) {
         console.log('ID utilisateur spécifié dans l\'URL :', this.userId);
@@ -33,17 +33,20 @@ export class MyPage implements OnInit {
   }
 
   async retrieveUserData(userId: string) {
-    const userDoc = this.firestore.collection('business-cards').doc(userId).get().toPromise();
-    // Récupérer les données de l'utilisateur depuis Firestore
-    if ((await userDoc).exists) {
-      // Stocker les données de l'utilisateur
-      this.userData = (await userDoc).data();
-      console.log('Données utilisateur récupérées avec succès :', this.userData);
-    } else {
-      console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
+    try {
+      // Récupérer les données de l'utilisateur depuis Firestore
+      const userDoc = await this.firestore.collection('business-cards').doc(userId).get().toPromise();
+      if (userDoc.exists) {
+        // Stocker les données de l'utilisateur
+        this.userData = userDoc.data();
+        console.log('Données utilisateur récupérées avec succès :', this.userData);
+      } else {
+        console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
     }
   }
 }
-
 
 
