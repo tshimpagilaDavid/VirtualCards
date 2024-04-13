@@ -12,36 +12,35 @@ export class MyPage implements OnInit {
   userId: any | null = null; // Initialiser userId à null
   image: string = 'assets/images.png'; // Chemin de l'image par défaut
   imageClass: string = 'image'; // Classe CSS pour l'image
+  entreprise!: any;
 
   constructor(private activateRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     // Souscrire aux modifications des paramètres de l'URL
-    this.activateRoute.paramMap.subscribe(params => {
+    this.activateRoute.paramMap.subscribe(async params => {
       // Extraire l'ID de l'URL
       this.userId = params.get('userId');
       // Vérifier si l'ID est présent
       if (this.userId) {
         // Récupérer les données de l'utilisateur à partir de Firestore
-        this.retrieveUserData();
+        await this.retrieveUserData(this.userId);
       } else {
         console.error('Aucun identifiant d\'utilisateur spécifié dans l\'URL.');
       }
     });
   }
 
-  retrieveUserData() {
+  async retrieveUserData(userId: string) {
+    const userDoc = this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
     // Récupérer les données de l'utilisateur depuis Firestore
-    this.firestore.collection('business-cards').doc(this.userId).get().toPromise().then(doc => {
-      if (doc.exists) {
+  
+      if ((await userDoc).exists) {
         // Stocker les données de l'utilisateur
-        this.userData = doc.data();
+        this.userData = (await userDoc).data();
       } else {
         console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
       }
-    }).catch(error => {
-      console.error('Erreur lors du chargement des données de l\'utilisateur:', error);
-    });
 
   }
 }
