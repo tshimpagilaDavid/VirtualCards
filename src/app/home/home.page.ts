@@ -105,7 +105,7 @@ export class HomePage {
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
-                  const pageUrl = `https://virtualcards-8b5ac.web.app/my/userId=${userId}`;// URL de la page
+                  const pageUrl = `https://virtualcards-8b5ac.web.app/my/${userId}`;// URL de la page
 
                   const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
                   this.qrCodeImageUrl = qrCodeImageUrl;
