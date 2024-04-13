@@ -42,6 +42,7 @@ export class MyPage implements OnInit {
     }).catch(error => {
       console.error('Erreur lors du chargement des données de l\'utilisateur:', error);
     });
+
   }
 }
 
