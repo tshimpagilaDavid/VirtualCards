@@ -23,6 +23,7 @@ export class MyPage implements OnInit {
       this.userId = params.get('userId');
       // Vérifier si l'ID est présent
       if (this.userId) {
+        console.log('ID utilisateur spécifié dans l\'URL :', this.userId);
         // Récupérer les données de l'utilisateur à partir de Firestore
         await this.retrieveUserData(this.userId);
       } else {
@@ -32,13 +33,12 @@ export class MyPage implements OnInit {
   }
 
   async retrieveUserData(userId: string) {
-    const userDoc = this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
+    const userDoc = this.firestore.collection('business-cards').doc(userId).get().toPromise();
     // Récupérer les données de l'utilisateur depuis Firestore
-    const userData = await userDoc;
-    console.log('UserData:', userData); // Vérifier les données récupérées dans la console
-    if (userData.exists) {
+    if ((await userDoc).exists) {
       // Stocker les données de l'utilisateur
-      this.userData = userData.data();
+      this.userData = (await userDoc).data();
+      console.log('Données utilisateur récupérées avec succès :', this.userData);
     } else {
       console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
     }
