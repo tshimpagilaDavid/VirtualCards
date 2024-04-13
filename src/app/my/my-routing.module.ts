@@ -5,7 +5,7 @@ import { MyPage } from './my.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '/my/:userId',
     component: MyPage
   }
 ];
