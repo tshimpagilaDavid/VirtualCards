@@ -34,14 +34,14 @@ export class MyPage implements OnInit {
   async retrieveUserData(userId: string) {
     const userDoc = this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
     // Récupérer les données de l'utilisateur depuis Firestore
-  
-      if ((await userDoc).exists) {
-        // Stocker les données de l'utilisateur
-        this.userData = (await userDoc).data();
-      } else {
-        console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
-      }
-
+    const userData = await userDoc;
+    console.log('UserData:', userData); // Vérifier les données récupérées dans la console
+    if (userData.exists) {
+      // Stocker les données de l'utilisateur
+      this.userData = userData.data();
+    } else {
+      console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
+    }
   }
 }
 
