@@ -105,7 +105,7 @@ export class HomePage {
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
-                  const pageUrl = `https://virtualcards-8b5ac.web.app/my?userId=${userId}`;; // URL de la page
+                  const pageUrl = `https://virtualcards-8b5ac.web.app/my?userId=${userId}`;// URL de la page
 
                   const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
                   this.qrCodeImageUrl = qrCodeImageUrl;
@@ -199,7 +199,7 @@ export class HomePage {
           localStorage.setItem('userData', JSON.stringify(userData));
 
           // Rediriger l'utilisateur vers la page MyPage avec l'ID de l'utilisateur dans l'URL
-          window.location.href = `https://virtualcards-8b5ac.web.app/my/${userId}`;
+          window.location.href = `https://virtualcards-8b5ac.web.app/my?${userId}`;
       } else {
           console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
       }
