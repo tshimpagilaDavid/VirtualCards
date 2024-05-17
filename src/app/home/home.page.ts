@@ -191,6 +191,12 @@ export class HomePage {
   
   async retrieveUserData(userId: string) {
     try {
+      // Vérifier si 'this.entreprise' est défini
+      if (!this.entreprise) {
+        console.error('Aucun nom d\'entreprise spécifié.');
+        return;
+      }
+
       // Récupérer les données de l'utilisateur depuis Firestore
       const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
       
