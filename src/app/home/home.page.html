@@ -45,22 +45,22 @@
   </ion-card>
     <ion-item class="item" shape="round">
       <ion-icon slot="start" name="call-outline"></ion-icon>
-      <ion-input [(ngModel)]="telephone" class="ion-text-center"></ion-input> 
+      <ion-input type="number" [(ngModel)]="telephone" class="ion-text-center"></ion-input> 
     </ion-item>
     <br>
     <ion-item class="item" shape="round">
       <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-      <ion-input [(ngModel)]="whatsapp" class="ion-text-center"></ion-input>
+      <ion-input type="number" [(ngModel)]="whatsapp" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
     <ion-item class="item" shape="round">
       <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-input [(ngModel)]="mail" class="ion-text-center"></ion-input>
+      <ion-input type="email" [(ngModel)]="mail" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
     <ion-item class="item" shape="round">
       <ion-icon name="globe-outline" slot="start"></ion-icon>
-      <ion-input [(ngModel)]="site" class="ion-text-center"></ion-input>
+      <ion-input type="url" [(ngModel)]="site" class="ion-text-center"></ion-input>
     </ion-item>
     <br>
     <ion-button class="item" class="round" (click)="addUserAndGenerateQR()">Générer le QR Code</ion-button>

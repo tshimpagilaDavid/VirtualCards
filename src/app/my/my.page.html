@@ -12,7 +12,7 @@
   <div class="flex">
     <div class="border-blanc">
       <div class="border-black">
-        <div class="image; image-box"  >
+        <div class="image; image-box">
           <img *ngIf="userData" [src]="userData.imageUrl" [class]="imageClass + ' fit-image'"/>
           <img *ngIf="!userData" [src]="image" alt="Image de remplacement" [class]="imageClass + ' fit-image'"/>
         </div>
@@ -22,42 +22,43 @@
 
   <ion-card class="card" shape="round" *ngIf="userData">
     <ion-row>
-      <ion-col >
-        <ion-label class="label">{{ userData.nom }} {{userData.prenom}}</ion-label>
+      <ion-col>
+        <ion-label class="label">{{ userData.nom }} {{ userData.prenom }}</ion-label>
       </ion-col>
     </ion-row>  
      
-     <ion-row>
-       <ion-col class="col">
-         <h4 style="text-align: center;">{{userData.poste}}</h4>
-       </ion-col>
-       <ion-col class="col">
-         <h4 style="text-align: center;">{{userData.entreprise}}</h4>
-       </ion-col>
-     </ion-row>
-     <ion-row>
-       <ion-col class="col2">
-         <h4 class="ion-text-center">{{userData.localisation}}</h4>
-       </ion-col>
-     </ion-row>
+    <ion-row>
+      <ion-col class="col">
+        <h4 style="text-align: center;">{{ userData.poste }}</h4>
+      </ion-col>
+      <ion-col class="col">
+        <h4 style="text-align: center;">{{ userData.entreprise }}</h4>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="col2">
+        <h4 class="ion-text-center">{{ userData.localisation }}</h4>
+      </ion-col>
+    </ion-row>
   </ion-card>
-  <ion-item class="item" shape="round">
+
+  <ion-item class="item" shape="round" *ngIf="userData.telephone">
     <ion-icon slot="start" name="call-outline"></ion-icon>
-    <ion-label class="ion-text-center">contact professionel</ion-label> 
+    <ion-label class="ion-text-center">Téléphone professionnel : {{ userData.telephone }}</ion-label> 
   </ion-item>
-  <br>
-  <ion-item class="item" shape="round">
+
+  <ion-item class="item" shape="round" *ngIf="userData.whatsapp">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-    <ion-label class="ion-text-center"> Whatsapp</ion-label>
+    <ion-label class="ion-text-center">WhatsApp : {{ userData.whatsapp }}</ion-label>
   </ion-item>
-  <br>
-  <ion-item class="item" shape="round">
+
+  <ion-item class="item" shape="round" *ngIf="userData.mail">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">Adresse mail</ion-label>
+    <ion-label class="ion-text-center">Adresse mail : <a href="mailto:{{ userData.mail }}">{{ userData.mail }}</a></ion-label>
   </ion-item>
-  <br>
-  <ion-item class="item" shape="round">
+
+  <ion-item class="item" shape="round" *ngIf="userData.site">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">Site-web</ion-label>
+    <ion-label class="ion-text-center">Site web : <a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
   </ion-item>
 </ion-content>
