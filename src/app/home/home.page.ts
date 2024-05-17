@@ -195,17 +195,17 @@ export class HomePage {
       const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
       
       if (userDoc.exists) {
-          const userData = userDoc.data();
-          localStorage.setItem('userData', JSON.stringify(userData));
+        const userData = userDoc.data();
+        localStorage.setItem('userData', JSON.stringify(userData));
 
-          // Rediriger l'utilisateur vers la page MyPage avec l'ID de l'utilisateur dans l'URL
-          window.location.href = `https://virtualcards-8b5ac.web.app/my/${userId}`;
+        // Rediriger l'utilisateur vers la page MyPage avec l'ID de l'utilisateur dans l'URL
+        this.router.navigate(['/my', userId]); // Utilisez le Router pour naviguer vers la page MyPage avec l'ID utilisateur
       } else {
-          console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
+        console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
       }
-  } catch (error) {
+    } catch (error) {
       console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
-  }
+    }
   }
   
   // Méthode pour naviguer vers une certaine URL
