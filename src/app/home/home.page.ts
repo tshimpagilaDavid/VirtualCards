@@ -196,16 +196,16 @@ export class HomePage {
         console.error('Aucun nom d\'entreprise spécifié.');
         return;
       }
-
+  
       // Récupérer les données de l'utilisateur depuis Firestore
       const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(userId).get().toPromise();
       
       if (userDoc.exists) {
         const userData = userDoc.data();
         localStorage.setItem('userData', JSON.stringify(userData));
-
+  
         // Rediriger l'utilisateur vers la page MyPage avec l'ID de l'utilisateur dans l'URL
-        this.router.navigate(['/my', userId]); // Utilisez le Router pour naviguer vers la page MyPage avec l'ID utilisateur
+        this.router.navigate(['/my', this.entreprise, userId]); // Utilisez le Router pour naviguer vers la page MyPage avec l'ID utilisateur
       } else {
         console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
       }
