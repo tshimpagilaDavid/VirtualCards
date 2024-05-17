@@ -24,16 +24,16 @@ export class MyPage implements OnInit {
     if (this.entreprise) {
       console.log('Nom de l\'entreprise spécifié dans l\'URL :', this.entreprise);
       // Récupérer les données de l'employé correspondant à l'ID de l'entreprise à partir de Firestore
-      this.retrieveEmployeeData(this.userId!, this.entreprise);
+      this.retrieveEmployeeData(this.entreprise);
     } else {
       console.error('Aucun nom d\'entreprise spécifié dans l\'URL.');
     }
   }
   
-  async retrieveEmployeeData(userId: string, entreprise: string) {
+  async retrieveEmployeeData(entreprise: string): Promise<void> {
     try {
       // Accéder à la sous-collection "employees" du document d'entreprise
-     const snapshot = await this.firestore.collection('business-cards').doc(entreprise).collection('employees').doc(userId).get().toPromise();
+     const snapshot = await this.firestore.collection('business-cards').doc(entreprise).collection('employees').doc(this.userId).get().toPromise();
       
       // Vérifier si le document existe
       if (snapshot.exists) {
