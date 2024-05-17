@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'my/:entreprise',
+    path: 'my/:userId',
     loadChildren: () => import('./my/my.module').then( m => m.MyPageModule)
   },
 ];

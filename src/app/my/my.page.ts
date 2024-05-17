@@ -8,44 +8,42 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./my.page.scss'],
 })
 export class MyPage implements OnInit {
-  userData: any; // Variable pour stocker les données de l'utilisateur récupérées
-  entreprise: string | null = null; // Initialiser l'entreprise à null
+  userData: any; // Variable pour stocker les données utilisateur récupérées
+  userId: string | null = null; // Initialiser l'ID à null
   image: string = 'assets/images.png'; // Chemin de l'image par défaut
   imageClass: string = 'image'; // Classe CSS pour l'image
-  userId: string | undefined;
 
   constructor(private activateRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
-    // Extraire le paramètre 'entreprise' de l'URL
-    this.entreprise = this.activateRoute.snapshot.paramMap.get('entreprise');
+    // Extraire le paramètre 'userId' de l'URL
+    this.userId = this.activateRoute.snapshot.paramMap.get('userId');
 
-    // Vérifier si 'entreprise' est définie
-    if (this.entreprise) {
-      console.log('Nom de l\'entreprise spécifié dans l\'URL :', this.entreprise);
-      // Récupérer les données de l'employé correspondant à l'ID de l'entreprise à partir de Firestore
-      this.retrieveEmployeeData(this.entreprise);
+    // Vérifier si 'userId' est défini
+    if (this.userId) {
+      console.log('ID utilisateur spécifié dans l\'URL :', this.userId);
+      // Récupérer les données de l'employé correspondant à l'ID à partir de Firestore
+      this.retrieveUserData(this.userId);
     } else {
-      console.error('Aucun nom d\'entreprise spécifié dans l\'URL.');
+      console.error('Aucun identifiant utilisateur spécifié dans l\'URL.');
     }
   }
   
-  async retrieveEmployeeData(entreprise: string): Promise<void> {
+  async retrieveUserData(userId: string): Promise<void> {
     try {
-      // Accéder à la sous-collection "employees" du document d'entreprise
-     const snapshot = await this.firestore.collection('business-cards').doc(entreprise).collection('employees').doc(this.userId).get().toPromise();
+      // Accéder au document spécifique dans la sous-collection "employees" en utilisant l'ID
+      const userDoc = await this.firestore.collection('business-cards').doc(userId).get().toPromise();
       
       // Vérifier si le document existe
-      if (snapshot.exists) {
-        // Obtenez les données de l'employé
-        this.userData = snapshot.data();
-        console.log('Données de l\'employé récupérées :', this.userData);
+      if (userDoc.exists) {
+        // Récupérer les données du document
+        this.userData = userDoc.data();
+        console.log('Données utilisateur récupérées :', this.userData);
       } else {
-        console.error('Aucun employé trouvé pour l\'entreprise spécifiée.');
+        console.error('Aucun utilisateur trouvé avec l\'identifiant spécifié.');
       }
-  
     } catch (error) {
-      console.error('Erreur lors de la récupération des données de l\'employé :', error);
+      console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
     }
   }
 }
