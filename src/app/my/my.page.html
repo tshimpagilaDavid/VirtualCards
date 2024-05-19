@@ -47,12 +47,12 @@
   <br>
   <ion-item class="item" shape="round" *ngIf="userData.mail" [href]="'mailto:' + userData.email">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">{{ userData.mail }}</a></ion-label>
+    <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
   </ion-item>
   <br>
   <ion-item class="item" shape="round" *ngIf="userData.site" [href]="userData.website" target="_blank" rel="noopener">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">{{ userData.site }}</a></ion-label>
+    <ion-label class="ion-text-center">{{ userData.site }}</ion-label>
   </ion-item>
   <br>
   <div class="overlay" *ngIf="loading">
