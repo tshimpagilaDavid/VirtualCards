@@ -60,6 +60,7 @@ ion-content {
 }
   
 .item {
+    color: white;
     left: 50%;;
     height: 3rem;
     width: 19rem;
@@ -70,18 +71,18 @@ ion-content {
   
 .col {
     color: #f0f0f0;
-    transform: translate(0%, 95%);
+    transform: translate(0%, 65%);
 }
 
 .col2 {
     color: #f0f0f0;
-    transform: translate(0%, 185%);
+    transform: translate(0%, 120%);
 }
 
 .label {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 250%);
+    transform: translate(-50%, 20%);
     font-size: 25px;
     color: white;
     font-weight: 800;
