@@ -26,7 +26,6 @@
         <ion-label class="label">{{ userData.nom }} {{ userData.prenom }}</ion-label>
       </ion-col>
     </ion-row>  
-     
     <ion-row>
       <ion-col class="col">
         <h4 style="text-align: center;">{{ userData.poste }}</h4>
@@ -46,19 +45,32 @@
     <ion-icon slot="start" name="call-outline"></ion-icon>
     <ion-label class="ion-text-center">Téléphone professionnel : {{ userData.telephone }}</ion-label> 
   </ion-item>
-
+  <br>
   <ion-item class="item" shape="round" *ngIf="userData.whatsapp">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     <ion-label class="ion-text-center">WhatsApp : {{ userData.whatsapp }}</ion-label>
   </ion-item>
-
+  <br>
   <ion-item class="item" shape="round" *ngIf="userData.mail">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center">Adresse mail : <a href="mailto:{{ userData.mail }}">{{ userData.mail }}</a></ion-label>
   </ion-item>
-
+  <br>
   <ion-item class="item" shape="round" *ngIf="userData.site">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center">Site web : <a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
   </ion-item>
+  <br>
+  <div class="overlay" *ngIf="loading">
+    <div class="loader" class="dot-spinner">
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+      <div class="dot-spinner__dot"></div>
+    </div>
+  </div>
 </ion-content>

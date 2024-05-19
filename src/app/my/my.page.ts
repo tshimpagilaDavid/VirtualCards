@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./my.page.scss'],
 })
 export class MyPage implements OnInit {
+  loading = true;
   userData: any; // Variable pour stocker les données utilisateur récupérées
   image: string = 'assets/images.png'; // Chemin de l'image par défaut
   imageClass: string = 'image'; // Classe CSS pour l'image
@@ -36,6 +37,7 @@ export class MyPage implements OnInit {
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
+      this.loading = false;
     }
   }
 }

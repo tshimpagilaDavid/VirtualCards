@@ -36,6 +36,7 @@ export class HomePage {
   image2: string | ArrayBuffer | null = this.image;
   qrCodeImageUrl: string | null = null;
   imageClass: string = 'image';
+  loading = false;
   selectedFile: any;
 
   constructor(
@@ -44,7 +45,8 @@ export class HomePage {
     private firestore: AngularFirestore,
     private platform: Platform,
     private storage: AngularFireStorage
-    ) {}
+    ) {
+    }
 
     openGallery() {
       const fileInput = document.getElementById('fileInput') as HTMLInputElement;
@@ -71,6 +73,7 @@ export class HomePage {
 
     async addUserAndGenerateQR() {
       try {
+          this.loading = true;
           if (!this.selectedFile) {
               console.error('Aucune image sélectionnée.');
               return;
@@ -107,7 +110,7 @@ export class HomePage {
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
                   const pageUrl = `https://virtualcards-8b5ac.web.app/my/${this.entreprise}/${userId}`;// URL de la page
 
-                  const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
+                  const qrCodeImageUrl = await this.generateAndUploadQRCode(userId);
                   this.qrCodeImageUrl = qrCodeImageUrl;
   
                   // Mettre à jour le document de l'utilisateur avec l'URL de l'image du code QR
@@ -116,19 +119,21 @@ export class HomePage {
                   });
   
                   console.log('Utilisateur ajouté avec succès et code QR généré.');
+                  this.loading = false;
               })
           ).toPromise();
       } catch (error) {
           console.error('Erreur lors de l\'ajout de l\'utilisateur et de la génération du code QR :', error);
+          this.loading = false;
       }
     }
   
-    async generateAndUploadQRCode(userId: string, pageUrl: string) {
+    async generateAndUploadQRCode(userId: string) {
       try {
           console.log('Début de la génération et du téléchargement du code QR.'); 
     
           // Construire l'URL de la page avec les données utilisateur
-          const fullUrl = `${pageUrl}?userId=${userId}`;
+          const fullUrl = `https://virtualcards-8b5ac.web.app/my/${this.entreprise}/${userId}`;;
           console.log('URL complète de la page:', fullUrl);
     
           // Générer le code QR à partir de l'URL de la page

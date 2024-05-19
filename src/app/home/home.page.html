@@ -65,8 +65,17 @@
     <br>
     <ion-button class="item" class="round" (click)="addUserAndGenerateQR()">Générer le QR Code</ion-button>
     <br>
+    <div class="overlay" *ngIf="loading">
+      <div class="loader" class="dot-spinner">
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+      </div>
+    </div>
     <img class="code" *ngIf="qrCodeImageUrl" [src]="qrCodeImageUrl" alt="QR Code">
- 
-
-
 </ion-content>
