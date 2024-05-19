@@ -105,7 +105,7 @@ export class HomePage {
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
                   // Générer le code QR à partir de l'ID de l'utilisateur et de l'URL de la page
-                  const pageUrl = `https://virtualcards-8b5ac.web.app/my/${userId}`;// URL de la page
+                  const pageUrl = `https://virtualcards-8b5ac.web.app/my/${this.entreprise}/${userId}`;// URL de la page
 
                   const qrCodeImageUrl = await this.generateAndUploadQRCode(pageUrl, userId);
                   this.qrCodeImageUrl = qrCodeImageUrl;
@@ -192,7 +192,7 @@ export class HomePage {
   async retrieveUserData(userId: string) {
     try {
       // Vérifier si 'this.entreprise' est défini
-      if (!this.entreprise) {
+      if (userId) {
         console.error('Aucun nom d\'entreprise spécifié.');
         return;
       }
@@ -205,7 +205,7 @@ export class HomePage {
         localStorage.setItem('userData', JSON.stringify(userData));
   
         // Rediriger l'utilisateur vers la page MyPage avec l'ID de l'utilisateur dans l'URL
-        this.router.navigate(['/my', this.entreprise, userId]); // Utilisez le Router pour naviguer vers la page MyPage avec l'ID utilisateur
+        this.router.navigate(['/my',this.entreprise, userId]); // Utilisez le Router pour naviguer vers la page MyPage avec l'ID utilisateur
       } else {
         console.error('L\'utilisateur avec l\'identifiant spécifié n\'existe pas.');
       }
