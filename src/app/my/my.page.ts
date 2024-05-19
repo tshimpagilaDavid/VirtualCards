@@ -22,6 +22,7 @@ export class MyPage implements OnInit {
       this.entreprise = params['entreprise'];
       this.userId = params['userId'];
       this.retrieveEmployeeData();
+      this.loading = false;
     });
   }
 
@@ -35,6 +36,7 @@ export class MyPage implements OnInit {
       } else {
         console.error('Utilisateur non trouvé.');
       }
+      this.loading = false;
     } catch (error) {
       console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
       this.loading = false;
