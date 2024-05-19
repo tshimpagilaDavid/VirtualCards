@@ -36,7 +36,7 @@
     </ion-row>
   </ion-card>
 
-  <ion-item class="item" shape="round" *ngIf="userData.telephone" [href]="'tel:' + userData.telephone">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.telephone" [href]="'tel:' + userData.telephone">
     <ion-icon slot="start" name="call-outline"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
   </ion-item>
