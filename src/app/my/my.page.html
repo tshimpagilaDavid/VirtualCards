@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center">Ma BusinessCard</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <div class="header">
     <img src="assets/header.png">
@@ -41,24 +35,24 @@
     </ion-row>
   </ion-card>
 
-  <ion-item class="item" shape="round" *ngIf="userData.telephone">
+  <ion-item class="item" shape="round" *ngIf="userData.telephone" [href]="'tel:' + userData.telephone">
     <ion-icon slot="start" name="call-outline"></ion-icon>
-    <ion-label class="ion-text-center">Téléphone professionnel : {{ userData.telephone }}</ion-label> 
+    <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.whatsapp">
+  <ion-item class="item" shape="round" *ngIf="userData.whatsapp" [href]="'https://wa.me/' + userData.telephone">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">WhatsApp : {{ userData.whatsapp }}</ion-label>
+    <ion-label class="ion-text-center">{{ userData.whatsapp }}</ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.mail">
+  <ion-item class="item" shape="round" *ngIf="userData.mail" [href]="'mailto:' + userData.email">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">Adresse mail : <a href="mailto:{{ userData.mail }}">{{ userData.mail }}</a></ion-label>
+    <ion-label class="ion-text-center">{{ userData.mail }}</a></ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.site">
+  <ion-item class="item" shape="round" *ngIf="userData.site" [href]="userData.website" target="_blank" rel="noopener">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">Site web : <a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
+    <ion-label class="ion-text-center">{{ userData.site }}</a></ion-label>
   </ion-item>
   <br>
   <div class="overlay" *ngIf="loading">
