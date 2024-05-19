@@ -14,7 +14,8 @@
     </div>
   </div>
 
-  <ion-card class="card" shape="round" *ngIf="userData">
+  <ion-card class="card" shape="round" *ngIf="userData" style="--empty-space-height: 20%;">
+    <div class="empty-space"></div> <!-- Zone vide de 20% -->
     <ion-row>
       <ion-col>
         <ion-label class="label">{{ userData.nom }} {{ userData.prenom }}</ion-label>

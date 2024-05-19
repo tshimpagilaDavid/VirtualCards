@@ -18,11 +18,11 @@ export class MyPage implements OnInit {
   constructor(private activateRoute: ActivatedRoute, private firestore: AngularFirestore) { }
 
   ngOnInit() {
+    this.loading = true;
     this.activateRoute.params.subscribe(params => {
       this.entreprise = params['entreprise'];
       this.userId = params['userId'];
       this.retrieveEmployeeData();
-      this.loading = false;
     });
   }
 
@@ -36,9 +36,10 @@ export class MyPage implements OnInit {
       } else {
         console.error('Utilisateur non trouvé.');
       }
-      this.loading = false;
     } catch (error) {
       console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
+    } finally {
+      // Désactiver le loader après la récupération des données ou en cas d'erreur
       this.loading = false;
     }
   }

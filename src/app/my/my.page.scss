@@ -87,8 +87,15 @@ ion-content {
     font-weight: 800;
     font-family:Georgia, 'Times New Roman', Times, serif;
 }
+
+.empty-space {
+    height: var(--empty-space-height); /* Hauteur de la zone vide */
+    min-height: 0; /* Assurez-vous que cela peut être réduit à zéro */
+}
   
 .card {
+    display: flex;
+    flex-direction: column;  
     z-index: -1;
     top: 0%;
     background-color: #12353f;
