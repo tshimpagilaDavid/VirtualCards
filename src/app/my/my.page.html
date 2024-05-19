@@ -41,17 +41,17 @@
     <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.whatsapp" [href]="'https://wa.me/' + userData.telephone">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp" [href]="'https://wa.me/' + userData.telephone">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.whatsapp }}</ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.mail" [href]="'mailto:' + userData.email">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.mail" [href]="'mailto:' + userData.email">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.site">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.site">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center"><a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
   </ion-item>
