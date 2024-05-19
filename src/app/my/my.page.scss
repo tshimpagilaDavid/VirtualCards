@@ -2,6 +2,11 @@ ion-content {
   --background: url('../../assets/14.jpg') no-repeat center center  / cover fixed;
 }
 
+.stop-scroll {
+  height: calc(100% - 100px); /* ajustez la valeur selon vos besoins pour déterminer où vous voulez que le défilement s'arrête */
+  overflow-y: auto; /* active le défilement vertical si le contenu dépasse la hauteur spécifiée */
+}
+
 .code {
     left: 50%;
       position: relative;

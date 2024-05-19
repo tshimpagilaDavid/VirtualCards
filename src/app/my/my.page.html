@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="stop-scroll">
   <div class="header">
     <img src="assets/header.png">
   </div>
@@ -18,7 +18,7 @@
     <div class="empty-space"></div> <!-- Zone vide de 20% -->
     <ion-row>
       <ion-col>
-        <ion-label class="label">{{ userData.nom }} {{ userData.prenom }}</ion-label>
+        <ion-label class="label" style="text-align: center; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ userData.nom }} {{ userData.prenom }}</ion-label>
       </ion-col>
     </ion-row>  
     <ion-row>
@@ -51,9 +51,9 @@
     <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData.site" [href]="userData.website" target="_blank" rel="noopener">
+  <ion-item class="item" shape="round" *ngIf="userData.site">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">{{ userData.site }}</ion-label>
+    <ion-label class="ion-text-center"><a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
   </ion-item>
   <br>
   <div class="overlay" *ngIf="loading">
