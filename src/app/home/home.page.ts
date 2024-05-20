@@ -30,7 +30,7 @@ export class HomePage {
   telephone!: number;
   whatsapp!: number;
   mail: any = '';
-  site!: URL;
+  site!: string;
 
   image: string = 'assets/images.png';
   image2: string | ArrayBuffer | null = this.image;
