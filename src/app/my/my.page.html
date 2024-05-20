@@ -36,24 +36,24 @@
     </ion-row>
   </ion-card>
 
-  <ion-item class="item" shape="round" *ngIf="userData && userData.telephone" [href]="'tel:' + userData.telephone">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.telephone" [href]="'tel:0' + userData.telephone">
     <ion-icon slot="start" name="call-outline"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp" [href]="'https://wa.me/' + userData.telephone">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp" [href]="'https://wa.me/' + userData.whatsapp">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.whatsapp }}</ion-label>
   </ion-item>
   <br>
-  <ion-item class="item" shape="round" *ngIf="userData && userData.mail" [href]="'mailto:' + userData.email">
+  <ion-item class="item" shape="round" *ngIf="userData && userData.mail" [href]="'mailto:' + userData.email + '?subject=' + userData.email">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
   </ion-item>
   <br>
   <ion-item class="item" shape="round" *ngIf="userData && userData.site">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center"><a href="{{ userData.site }}" target="_blank">{{ userData.site }}</a></ion-label>
+    <ion-label class="ion-text-center"><a [href]="getDomainUrl(userData.site)" target="_blank">{{ userData.site }}</a></ion-label>
   </ion-item>
   <br>
   <div class="overlay" *ngIf="loading">

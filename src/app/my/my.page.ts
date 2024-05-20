@@ -26,6 +26,23 @@ export class MyPage implements OnInit {
     });
   }
 
+  getDomainUrl(url: string): string {
+    // Vérifier si l'URL commence par "http://" ou "https://"
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      // Si l'URL ne commence pas par "http://" ou "https://", ajouter "https://" au début
+      url = 'https://' + url;
+    }
+  
+    // Supprimer "http://", "https://" et "www." de l'URL
+    let domain = url.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
+  
+    // Extraire le nom de domaine du site
+    domain = domain.split('/')[0];
+  
+    // Retourner l'URL avec le nom de domaine seulement
+    return domain;
+  }
+
   async retrieveEmployeeData() {
     try {
       const userDoc = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').doc(this.userId).get().toPromise();
