@@ -28,15 +28,10 @@
         <h4 style="text-align: center;">{{ userData.poste }}</h4>
         <p style="text-align: center;">{{ userData.entreprise }}</p>
       </ion-col>
-    </ion-row>
-  
-    <!-- Description du travail -->
-    <ion-row>
-      <ion-col class="col">
-        <p>Dans notre institution, nous croyons en chacun d'entre vous. En valorisant vos passions, votre créativité et votre engagement. Rejoignez notre communauté diversifiée où vos idées sont écoutées. Et ensemble, visons l'excellence et l'innovation. Inspirons le changement et façonnons tous ensemble un avenir meilleur. Rejoignez-nous dans cette aventure passionnante. Car tous ensemble, nous sommes un et nous sommes plus forts.</p>
+      <ion-col class="colo">
+        <p>Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
       </ion-col>
     </ion-row>
-  
     <!-- Localisation -->
     <ion-row>
       <ion-col class="col2">
@@ -49,13 +44,13 @@
     <ion-icon slot="start" name="call-outline"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
 </ion-item>
-<ion-item *ngIf="userData && userData.telephone === undefined">Aucun numéro de téléphone</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && userData.telephone === undefined">Aucun numéro de téléphone</ion-item>
 <br>
 <ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp !== undefined" [href]="'https://wa.me/' + userData.whatsapp">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.whatsapp }}</ion-label>
 </ion-item>
-<ion-item *ngIf="userData && userData.whatsapp === undefined">Aucun numéro WhatsApp</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && userData.whatsapp === undefined">Aucun numéro WhatsApp</ion-item>
 <br>  
 <ion-item class="item" shape="round" *ngIf="userData && userData.facebook !== undefined">
     <ion-icon name="logo-facebook" slot="start"></ion-icon>
@@ -63,19 +58,19 @@
         <a [href]="getFacebookUrl(userData.facebook)" target="_blank">{{ userData.facebook }}</a>
     </ion-label>
 </ion-item>
-<ion-item *ngIf="userData && userData.facebook === undefined">Aucun lien Facebook</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && userData.facebook === undefined">Aucun lien Facebook</ion-item>
 <br>
-<ion-item class="item" shape="round" *ngIf="userData && userData.mail !== undefined" [href]="'mailto:' + userData.mail">
-    <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
+<ion-item class="item" shape="round" *ngIf="userData && !isNullOrUndefined(userData.mail)" [href]="'mailto:' + userData.mail">
+  <ion-icon name="mail-outline" slot="start"></ion-icon>
+  <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
 </ion-item>
-<ion-item *ngIf="userData && userData.mail === undefined">Aucune adresse e-mail</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && isNullOrUndefined(userData.mail)">Aucune adresse e-mail</ion-item>
 <br>
 <ion-item class="item" shape="round" *ngIf="userData && userData.site !== undefined">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
     <ion-label class="ion-text-center"><a [href]="getDomainUrl(userData.site)" target="_blank">{{ getDomainUrl(userData.site) }}</a></ion-label>
 </ion-item>
-<ion-item *ngIf="userData && userData.site === undefined">Aucun site web</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && userData.site === undefined">Aucun site web</ion-item>
   <br>
   <div class="overlay" *ngIf="loading">
     <div class="loader" class="dot-spinner">

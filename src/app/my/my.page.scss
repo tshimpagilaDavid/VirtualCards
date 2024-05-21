@@ -78,8 +78,9 @@ ion-content {
     transform: translate(0%, 65%);
 }
 
-.col3 {
-  color: #f0f0f0;
+.colo {
+  color: #12353f;
+  font-weight: 700;
   transform: translate(0%, 65%);
   overflow: hidden; /* Empêche le débordement du contenu */
   text-overflow: ellipsis; /* Affiche "..." pour indiquer que le texte est coupé */
@@ -89,6 +90,7 @@ ion-content {
 
 .col2 {
     color: #f0f0f0;
+    font-weight: 500;
     transform: translate(0%, 120%);
 }
 
@@ -112,7 +114,7 @@ ion-content {
     flex-direction: column;  
     z-index: -1;
     top: 0%;
-    background-color: #12353f;
+    background-color: #226173;
     position: relative;
     left: 50%;
     transform: translate(-53.5%, -25%);
