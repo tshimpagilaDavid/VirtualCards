@@ -27,9 +27,9 @@
       <ion-col class="col">
         <h4 style="text-align: center;">{{ userData.poste }}</h4>
         <p style="text-align: center;">{{ userData.entreprise }}</p>
-      </ion-col>
-      <ion-col class="colo">
-        <p>Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
+        <br>
+        <br>
+        <p class="colo">Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
       </ion-col>
     </ion-row>
     <!-- Localisation -->
@@ -60,11 +60,11 @@
 </ion-item>
 <ion-item class="ion-text-center" *ngIf="userData && userData.facebook === undefined">Aucun lien Facebook</ion-item>
 <br>
-<ion-item class="item" shape="round" *ngIf="userData && !isNullOrUndefined(userData.mail)" [href]="'mailto:' + userData.mail">
+<ion-item class="item" shape="round" *ngIf="userData && userData.mail !== undefined" [href]="'mailto:' + userData.mail">
   <ion-icon name="mail-outline" slot="start"></ion-icon>
   <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
 </ion-item>
-<ion-item class="ion-text-center" *ngIf="userData && isNullOrUndefined(userData.mail)">Aucune adresse e-mail</ion-item>
+<ion-item class="ion-text-center" *ngIf="userData && userData.mail === undefined">Aucune adresse e-mail</ion-item>
 <br>
 <ion-item class="item" shape="round" *ngIf="userData && userData.site !== undefined">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
