@@ -93,19 +93,19 @@ export class HomePage {
   
                   // Ajouter les données de l'utilisateur (y compris l'URL de l'image) à Firestore
                   const userData = {
-                      nom: this.nom,
-                      prenom: this.prenom,
-                      poste: this.poste,
-                      entreprise: this.entreprise,
-                      localisation: this.localisation,
-                      imageUrl: imageUrl,
-                      telephone: this.telephone,
-                      whatsapp: this.whatsapp,
-                      mail: this.mail,
-                      site: this.site,
-                      facebook: this.facebook // Ajoutez l'URL de l'image ici
-                      // Ajoutez d'autres champs si nécessaire
-                  };
+                    nom: this.nom || undefined,
+                    prenom: this.prenom || undefined,
+                    poste: this.poste || undefined,
+                    entreprise: this.entreprise || undefined,
+                    localisation: this.localisation || undefined,
+                    imageUrl: imageUrl || undefined,
+                    telephone: this.telephone || undefined,
+                    whatsapp: this.whatsapp || undefined,
+                    mail: this.mail || undefined,
+                    site: this.site || undefined,
+                    facebook: this.facebook || undefined
+                    // Ajoutez d'autres champs si nécessaire, avec la même logique
+                };
                   const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
                   const userId = userRef.id; // Récupérer l'ID du document nouvellement créé
   
