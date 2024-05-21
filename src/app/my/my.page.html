@@ -14,21 +14,30 @@
     </div>
   </div>
 
-  <ion-card class="card" shape="round" *ngIf="userData" style="--empty-space-height: 20%;">
+  <ion-card class="card" shape="round" *ngIf="userData" style="--empty-space-height: 20%; overflow: auto;">
     <div class="empty-space"></div> <!-- Zone vide de 20% -->
     <ion-row>
       <ion-col>
         <ion-label class="label" style="text-align: center; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ userData.nom }} {{ userData.prenom }}</ion-label>
       </ion-col>
     </ion-row>  
+  
+    <!-- Information sur le poste et l'entreprise -->
     <ion-row>
       <ion-col class="col">
         <h4 style="text-align: center;">{{ userData.poste }}</h4>
-      </ion-col>
-      <ion-col class="col3">
-        <h4 style="text-align: center;">{{ userData.entreprise }}</h4>
+        <p style="text-align: center;">{{ userData.entreprise }}</p>
       </ion-col>
     </ion-row>
+  
+    <!-- Description du travail -->
+    <ion-row>
+      <ion-col class="col">
+        <p>Dans notre institution, nous croyons en chacun d'entre vous. En valorisant vos passions, votre créativité et votre engagement. Rejoignez notre communauté diversifiée où vos idées sont écoutées. Et ensemble, visons l'excellence et l'innovation. Inspirons le changement et façonnons tous ensemble un avenir meilleur. Rejoignez-nous dans cette aventure passionnante. Car tous ensemble, nous sommes un et nous sommes plus forts.</p>
+      </ion-col>
+    </ion-row>
+  
+    <!-- Localisation -->
     <ion-row>
       <ion-col class="col2">
         <h4 class="ion-text-center">{{ userData.localisation }}</h4>

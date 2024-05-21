@@ -93,17 +93,18 @@ export class HomePage {
   
                   // Ajouter les données de l'utilisateur (y compris l'URL de l'image) à Firestore
                   const userData = {
-                    nom: this.nom || undefined,
-                    prenom: this.prenom || undefined,
-                    poste: this.poste || undefined,
-                    entreprise: this.entreprise || undefined,
-                    localisation: this.localisation || undefined,
-                    imageUrl: imageUrl || undefined,
-                    telephone: this.telephone || undefined,
-                    whatsapp: this.whatsapp || undefined,
-                    mail: this.mail || undefined,
-                    site: this.site || undefined,
-                    facebook: this.facebook || undefined
+                    // Ajoutez uniquement les champs avec des valeurs définies
+                    ...(this.nom !== undefined && { nom: this.nom }),
+                    ...(this.prenom !== undefined && { prenom: this.prenom }),
+                    ...(this.poste !== undefined && { poste: this.poste }),
+                    ...(this.entreprise !== undefined && { entreprise: this.entreprise }),
+                    ...(this.localisation !== undefined && { localisation: this.localisation }),
+                    ...(imageUrl !== undefined && { imageUrl }),
+                    ...(this.telephone !== undefined && { telephone: this.telephone }),
+                    ...(this.whatsapp !== undefined && { whatsapp: this.whatsapp }),
+                    ...(this.mail !== undefined && { mail: this.mail }),
+                    ...(this.site !== undefined && { site: this.site }),
+                    ...(this.facebook !== undefined && { facebook: this.facebook })
                     // Ajoutez d'autres champs si nécessaire, avec la même logique
                 };
                   const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);
