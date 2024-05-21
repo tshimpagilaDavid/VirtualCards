@@ -26,6 +26,17 @@ export class MyPage implements OnInit {
     });
   }
 
+  getFacebookUrl(username: string): string {
+    // Vérifier si l'identifiant Facebook commence par "http://" ou "https://"
+    if (!username.startsWith('http://') && !username.startsWith('https://')) {
+      // Si l'identifiant Facebook ne commence pas par "http://" ou "https://", ajouter "https://www.facebook.com/" au début
+      username = 'https://www.facebook.com/' + username;
+    }
+  
+    // Retourner l'URL complète de la page Facebook
+    return username;
+  }
+
   getDomainUrl(url: string): string {
     // Vérifier si l'URL commence par "http://" ou "https://"
     if (!url.startsWith('http://') && !url.startsWith('https://')) {

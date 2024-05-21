@@ -31,6 +31,7 @@ export class HomePage {
   whatsapp!: number;
   mail: any = '';
   site!: string;
+  facebook!: string;
 
   image: string = 'assets/images.png';
   image2: string | ArrayBuffer | null = this.image;
@@ -101,7 +102,8 @@ export class HomePage {
                       telephone: this.telephone,
                       whatsapp: this.whatsapp,
                       mail: this.mail,
-                      site: this.site // Ajoutez l'URL de l'image ici
+                      site: this.site,
+                      facebook: this.facebook // Ajoutez l'URL de l'image ici
                       // Ajoutez d'autres champs si nécessaire
                   };
                   const userRef = await this.firestore.collection('business-cards').doc(this.entreprise).collection('employees').add(userData);

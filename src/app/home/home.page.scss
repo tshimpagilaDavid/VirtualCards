@@ -1,5 +1,12 @@
-ion-content{
-  --background: url('../../assets/14.jpg') no-repeat center center  / cover fixed;
+ion-content {
+  /* Définit l'image de fond */
+  background-image: url('../../assets/14.webp');
+  /* Définit la taille de l'image de fond pour couvrir tout le contenu */
+  background-size: cover;
+  /* Définit que l'image de fond ne se répète pas */
+  background-repeat: no-repeat;
+  /* Définit le positionnement de l'image de fond au centre */
+  background-position: center;
 }
 
 #container {
