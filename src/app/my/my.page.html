@@ -27,11 +27,10 @@
     <!-- Information sur le poste et l'entreprise -->
       <p class="ion-text-center" class="colo">Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
     <!-- Localisation -->
-    <ion-row>
-      <ion-col class="col2">
-        <h4 class="ion-text-center">{{ userData.localisation }}</h4>
-      </ion-col>
-    </ion-row>
+    <br>
+    <br>
+    
+    <h4 style="font-weight: 300;color: white;text-align: center;">{{ userData.localisation }}</h4>
   </ion-card>
   <br>
   <ion-item class="item" shape="round" *ngIf="userData && userData.telephone !== undefined" [href]="'tel:0' + userData.telephone">
