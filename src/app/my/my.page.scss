@@ -81,12 +81,10 @@ ion-content {
 .colo {
   color: #12353f;
   text-align: center;
-  font-weight: 700;
-  transform: translate(0%, 65%);
-  overflow: hidden; /* Empêche le débordement du contenu */
-  text-overflow: ellipsis; /* Affiche "..." pour indiquer que le texte est coupé */
-  max-height: 1.2em; /* Limite la hauteur de la colonne */
-  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+  font-weight: 600;
+  transform: translate(0%, -100%);
+  max-height: 1.0em; /* Limite la hauteur de la colonne */
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .col2 {
