@@ -1,5 +1,5 @@
 ion-content {
-  --background: url('../../assets/14.jpg') no-repeat center center  / cover fixed;
+  --background: url('../../assets/14.webp') no-repeat center center  / cover fixed;
 }
 
 .stop-scroll {
@@ -58,14 +58,13 @@ ion-content {
     border-bottom-left-radius: 5%;
     border-bottom-right-radius: 5%;
     height: 12.9rem;
-    width: 20rem;
+    width: 21.5rem;
     position: relative;
     left: 50%;
     transform: translate(-50%, -10%);
 }
   
 .item {
-    color: white;
     left: 50%;;
     height: 3rem;
     width: 19rem;
@@ -79,13 +78,18 @@ ion-content {
     transform: translate(0%, 65%);
 }
 
-.col3 {
-  color: #f0f0f0;
-  transform: translate(0%, 65%);
+.colo {
+  color: #12353f;
+  text-align: center;
+  font-weight: 600;
+  transform: translate(0%, -100%);
+  max-height: 1.0em; /* Limite la hauteur de la colonne */
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .col2 {
     color: #f0f0f0;
+    font-weight: 500;
     transform: translate(0%, 120%);
 }
 
@@ -95,7 +99,7 @@ ion-content {
     transform: translate(-50%, 20%);
     font-size: 25px;
     color: white;
-    font-weight: 800;
+    font-weight: 400;
     font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -109,11 +113,11 @@ ion-content {
     flex-direction: column;  
     z-index: -1;
     top: 0%;
-    background-color: #12353f;
+    background-color: #226173;
     position: relative;
     left: 50%;
     transform: translate(-53.5%, -25%);
-    width: 20rem;
+    width: 21.5rem;
     height: 20rem;
     border-top-left-radius: 5%;
     border-top-right-radius: 5%;

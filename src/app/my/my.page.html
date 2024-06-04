@@ -14,47 +14,68 @@
     </div>
   </div>
 
-  <ion-card class="card" shape="round" *ngIf="userData" style="--empty-space-height: 20%;">
+  <ion-card class="card" shape="round" *ngIf="userData" style="--empty-space-height: 20%; overflow: auto;">
     <div class="empty-space"></div> <!-- Zone vide de 20% -->
     <ion-row>
       <ion-col>
         <ion-label class="label" style="text-align: center; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ userData.nom }} {{ userData.prenom }}</ion-label>
+        <br>
+        <br>
+        <p style="text-align: center; color: white;">{{ userData.poste }} / {{ userData.entreprise }}</p>
       </ion-col>
     </ion-row>  
-    <ion-row>
-      <ion-col class="col">
-        <h4 style="text-align: center;">{{ userData.poste }}</h4>
-      </ion-col>
-      <ion-col class="col3">
-        <h4 style="text-align: center;">{{ userData.entreprise }}</h4>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="col2">
-        <h4 class="ion-text-center">{{ userData.localisation }}</h4>
-      </ion-col>
-    </ion-row>
+    <!-- Information sur le poste et l'entreprise -->
+      <p class="ion-text-center" class="colo">Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
+    <!-- Localisation -->
+    <br>
+    <br>
+    
+    <h4 style="font-weight: 300;color: white;text-align: center;">{{ userData.localisation }}</h4>
   </ion-card>
-
-  <ion-item class="item" shape="round" *ngIf="userData && userData.telephone" [href]="'tel:0' + userData.telephone">
+  <br>
+  <ion-item class="item" shape="round" *ngIf="userData && userData.telephone !== undefined" [href]="'tel:0' + userData.telephone">
     <ion-icon slot="start" name="call-outline"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.telephone }}</ion-label> 
-  </ion-item>
-  <br>
-  <ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp" [href]="'https://wa.me/' + userData.whatsapp">
+</ion-item>
+<ion-item class="item" shape="round" *ngIf="userData && userData.telephone === undefined">
+  <ion-icon name="call-outline" slot="start"></ion-icon>
+  <ion-label class="ion-text-center">Aucun numéro de téléphone</ion-label>
+</ion-item>
+<br>
+<ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp !== undefined" [href]="'https://wa.me/' + userData.whatsapp">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     <ion-label class="ion-text-center">{{ userData.whatsapp }}</ion-label>
+</ion-item>
+<ion-item class="item" shape="round" *ngIf="userData && userData.whatsapp === undefined">
+  <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+  <ion-label class="ion-text-center">Aucun numéro WhatsApp</ion-label>
+</ion-item>
+<br>  
+<ion-item class="item" shape="round" *ngIf="userData && userData.facebook !== undefined">
+    <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    <ion-label class="ion-text-center">
+        <a [href]="getFacebookUrl(userData.facebook)" target="_blank">{{ userData.facebook }}</a>
+    </ion-label>
+</ion-item>
+<ion-item class="item" shape="round" *ngIf="userData && userData.facebook === undefined">
+  <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    <ion-label class="ion-text-center">Aucun lien Facebook</ion-label>
   </ion-item>
-  <br>
-  <ion-item class="item" shape="round" *ngIf="userData && userData.mail" [href]="'mailto:' + userData.mail">
+<br>
+  <ion-item class="item" shape="round" *ngIf="userData">
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center">{{ userData.mail }}</ion-label>
+    <ion-label class="ion-text-center" *ngIf="userData.mail !== undefined" [href]="'mailto:' + userData.mail">{{ userData.mail }}</ion-label>
+    <ion-label class="ion-text-center" *ngIf="userData.mail === undefined">Aucune adresse e-mail</ion-label>
   </ion-item>
-  <br>
-  <ion-item class="item" shape="round" *ngIf="userData && userData.site">
+<br>
+<ion-item class="item" shape="round" *ngIf="userData && userData.site !== undefined">
     <ion-icon name="globe-outline" slot="start"></ion-icon>
-    <ion-label class="ion-text-center"><a [href]="userData.site" target="_blank">{{ userData.site }}</a></ion-label>
-  </ion-item>
+    <ion-label class="ion-text-center"><a [href]="getDomainUrl(userData.site)" target="_blank">{{ getDomainUrl(userData.site) }}</a></ion-label>
+</ion-item>
+<ion-item class="item" shape="round" *ngIf="userData && userData.site === undefined">
+  <ion-icon name="globe-outline" slot="start"></ion-icon>
+  <ion-label class="ion-text-center">Aucun site web</ion-label>
+</ion-item>
   <br>
   <div class="overlay" *ngIf="loading">
     <div class="loader" class="dot-spinner">
