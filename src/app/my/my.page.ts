@@ -37,15 +37,15 @@ export class MyPage implements OnInit {
     return username;
   }
 
-  getDomainUrl(url: string): string {
+  getDomainUrl(site: string): string {
     // Vérifier si l'URL commence par "http://" ou "https://"
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    if (!site.startsWith('http://') && !site.startsWith('https://')) {
       // Si l'URL ne commence pas par "http://" ou "https://", ajouter "https://" au début
-      url = 'https://' + url;
+      site = 'https://' + site;
     }
   
     // Supprimer "http://", "https://" et "www." de l'URL
-    let domain = url.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
+    let domain = site.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
   
     // Extraire le nom de domaine du site
     domain = domain.split('/')[0];
