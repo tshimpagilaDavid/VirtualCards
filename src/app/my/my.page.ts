@@ -71,6 +71,24 @@ export class MyPage implements OnInit {
       this.loading = false;
     }
   }
+  captureAndDownload() {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = window.URL.createObjectURL(blob);
+
+    // Créer un élément <a> pour le téléchargement
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ma.carte.virtuelle';
+
+    // Ajouter l'élément <a> à la page et simuler un clic pour télécharger
+    document.body.appendChild(a);
+    a.click();
+
+    // Nettoyer
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
 }
 
 

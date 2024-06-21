@@ -12,6 +12,12 @@ ion-content {
       position: relative;
       transform: translate(-50%);
 }
+
+.round {
+  position: absolute;
+  left: 50%;;
+  transform: translate(-50%, -100%);
+}
    
 .flex {
     margin-bottom: 50px;
