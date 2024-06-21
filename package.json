@@ -30,6 +30,7 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic/angular": "^7.0.0",
     "firebase": "^10.9.0",
+    "html2canvas": "^1.4.1",
     "ionicons": "^7.0.0",
     "qrcode": "^1.5.3",
     "rxjs": "^6.5.0",

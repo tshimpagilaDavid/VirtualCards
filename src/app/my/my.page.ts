@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-my',
@@ -72,22 +74,25 @@ export class MyPage implements OnInit {
     }
   }
   captureAndDownload() {
-    const htmlContent = document.documentElement.outerHTML;
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const url = window.URL.createObjectURL(blob);
+    const element = document.documentElement;
 
-    // Créer un élément <a> pour le téléchargement
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ma.carte.virtuelle';
+    // Utiliser html2canvas pour capturer l'élément HTML
+    html2canvas(element).then(canvas => {
+      // Convertir le canvas en image PNG
+      const imgData = canvas.toDataURL('image/png');
 
-    // Ajouter l'élément <a> à la page et simuler un clic pour télécharger
-    document.body.appendChild(a);
-    a.click();
+      // Créer un élément <a> pour le téléchargement
+      const a = document.createElement('a');
+      a.href = imgData;
+      a.download = 'ma-carte-virtuelle.png';
 
-    // Nettoyer
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+      // Ajouter l'élément <a> à la page et simuler un clic pour télécharger
+      document.body.appendChild(a);
+      a.click();
+
+      // Nettoyer
+      document.body.removeChild(a);
+    });
   }
 }
 
