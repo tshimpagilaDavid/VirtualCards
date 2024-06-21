@@ -76,8 +76,21 @@ export class MyPage implements OnInit {
   captureAndDownload() {
     const element = document.documentElement;
 
-    // Utiliser html2canvas pour capturer l'élément HTML
-    html2canvas(element).then(canvas => {
+    // Options pour html2canvas
+    const options = {
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      width: document.documentElement.scrollWidth,
+      height: document.documentElement.scrollHeight,
+      x: window.pageXOffset,
+      y: window.pageYOffset,
+      allowTaint: true
+    };
+
+    // Utiliser html2canvas pour capturer l'élément HTML avec les options
+    html2canvas(element, options).then(canvas => {
       // Convertir le canvas en image PNG
       const imgData = canvas.toDataURL('image/png');
 
@@ -92,6 +105,8 @@ export class MyPage implements OnInit {
 
       // Nettoyer
       document.body.removeChild(a);
+    }).catch(error => {
+      console.error('Erreur lors de la capture:', error);
     });
   }
 }
