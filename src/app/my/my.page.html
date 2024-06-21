@@ -25,7 +25,7 @@
       </ion-col>
     </ion-row>  
     <!-- Information sur le poste et l'entreprise -->
-    <p class="ion-text-center colo" style="margin-bottom: 11%;">Dans notre Société, nous croyons en chacun d'entre vous. En valorisant votre créativité et votre engagement. Rejoignez la communauté diversifiée où les idées sont écoutées. Inspirons le changement et façonnons ensemble l'innovation. Car, nous sommes un et nous sommes plus forts.</p>
+    <p class="ion-text-center colo" style="margin-bottom: 11%;">Bienvenue sur la carte virtuelle de Mr(Mme){{ userData.nom}}, grâce à elle vous pouvez accéder plus facilement à ses informations Professionelles. Rejoignez notre communauté et façonnons ensemble l'innovation. Car, nous sommes un et plus forts.</p>
     <!-- Localisation -->
     <br>
     <br>
@@ -64,8 +64,11 @@
 <br>
 <ion-item class="item" shape="round" *ngIf="userData">
   <ion-icon name="mail-outline" slot="start"></ion-icon>
-  <a class="ion-text-center" *ngIf="userData.mail !== undefined" [href]="'mailto:' + userData.mail">{{ userData.mail }}</a>
-  <ion-label class="ion-text-center" *ngIf="userData.mail === undefined">Aucune adresse e-mail</ion-label>
+  <ion-label class="ion-text-center"><a *ngIf="userData.mail !== undefined" [href]="'mailto:' + userData.mail">{{ userData.mail }}</a></ion-label>
+</ion-item>
+<ion-item class="item" shape="round" *ngIf="userData && userData.mail === undefined">
+  <ion-icon name="mail-outline" slot="start"></ion-icon>
+  <ion-label class="ion-text-center">Aucune adresse e-mail</ion-label>
 </ion-item>
 <br>
 <ion-item class="item" shape="round" *ngIf="userData && userData.site !== undefined">
