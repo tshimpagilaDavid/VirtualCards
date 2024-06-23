@@ -38,20 +38,13 @@ export class MyPage implements OnInit {
   }
 
   getDomainUrl(site: string): string {
-    // Vérifier si l'URL commence par "http://" ou "https://"
+    // Vérifie si l'URL commence déjà par 'http://' ou 'https://'
     if (!site.startsWith('http://') && !site.startsWith('https://')) {
-      // Si l'URL ne commence pas par "http://" ou "https://", ajouter "https://" au début
-      site = 'https://' + site;
+      // Si ce n'est pas le cas, ajoute 'https://' par défaut
+      return 'https://' + site;
     }
-  
-    // Supprimer "http://", "https://" et "www." de l'URL
-    let domain = site.replace(/(^\w+:|^)\/\//, '').replace('www.', '');
-  
-    // Extraire le nom de domaine du site
-    domain = domain.split('/')[0];
-  
-    // Retourner l'URL avec le nom de domaine seulement
-    return domain;
+    // Sinon, retourne l'URL telle quelle
+    return site;
   }
 
   async retrieveEmployeeData() {
