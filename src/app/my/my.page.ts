@@ -83,7 +83,7 @@ export class MyPage implements OnInit {
     };
 
     // Utiliser html2canvas pour capturer l'élément HTML avec les options
-    html2canvas(element, options).then(canvas => {
+    html2canvas(element, { allowTaint: true }).then(canvas => {
       // Convertir le canvas en image PNG
       const imgData = canvas.toDataURL('image/png');
 
