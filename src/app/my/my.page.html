@@ -64,16 +64,8 @@
 <br>
 <ion-item class="item" shape="round" *ngIf="userData">
   <ion-icon name="mail-outline" slot="start"></ion-icon>
-<<<<<<< HEAD
   <a class="ion-text-center" *ngIf="userData.mail !== undefined" [href]="'mailto:' + userData.mail" target="_system">{{ userData.mail }}</a>
   <ion-label class="ion-text-center" *ngIf="userData.mail === undefined">Aucune adresse e-mail</ion-label>
-=======
-  <ion-label class="ion-text-center"><a *ngIf="userData.mail !== undefined" [href]="'mailto:' + userData.mail">{{ userData.mail }}</a></ion-label>
-</ion-item>
-<ion-item class="item" shape="round" *ngIf="userData && userData.mail === undefined">
-  <ion-icon name="mail-outline" slot="start"></ion-icon>
-  <ion-label class="ion-text-center">Aucune adresse e-mail</ion-label>
->>>>>>> e690288741e8f88eaefd949f9f5a79814ca37d8b
 </ion-item>
 <br>
 <ion-item class="item" shape="round" *ngIf="userData && userData.site !== undefined">
